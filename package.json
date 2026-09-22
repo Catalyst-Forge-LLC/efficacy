@@ -1,0 +1,25 @@
+{
+  "name": "efficacy-workspace",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "packageManager": "pnpm@10.30.1",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "efficacy": "efficacy",
+    "dev": "pnpm --filter efficacy-site dev",
+    "build": "pnpm --filter efficacy-site build",
+    "verify": "pnpm -r --if-present run typecheck && pnpm -r --if-present run test && node scripts/sync-spec-page.mjs --check",
+    "spec:sync": "node scripts/sync-spec-page.mjs"
+  },
+  "devDependencies": {
+    "efficacy": "workspace:*",
+    "typescript": "^5.9.2"
+  },
+  "license": "Apache-2.0",
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "getfilepress"]
+  }
+}

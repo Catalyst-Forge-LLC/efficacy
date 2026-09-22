@@ -1,0 +1,16 @@
+{
+  "name": "efficacy-site",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "localslip claim efficacy-site --port 4173 && filepress dev",
+    "build": "node ../scripts/sync-spec-page.mjs && filepress build",
+    "preview": "filepress preview",
+    "check": "filepress check"
+  },
+  "devDependencies": {
+    "getfilepress": "^0.1.37"
+  }
+}

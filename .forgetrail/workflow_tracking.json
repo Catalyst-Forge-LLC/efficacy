@@ -6,12 +6,12 @@
     "archetype": "product",
     "status": "active"
   },
-  "currentPhase": "1-architecture",
+  "currentPhase": "2-scaffolding",
   "phases": {
     "1-architecture": {
-      "status": "in_progress",
+      "status": "completed",
       "startedAt": "2026-09-21T00:00:00Z",
-      "completedAt": null,
+      "completedAt": "2026-09-22T18:07:00Z",
       "exitCriteriaMet": [
         "Folder structure confirmed",
         "Tech choices confirmed",
@@ -30,11 +30,10 @@
       ]
     },
     "2-scaffolding": {
-      "status": "not_started",
-      "startedAt": null,
+      "status": "in_progress",
+      "startedAt": "2026-09-22T18:07:00Z",
       "completedAt": null,
-      "exitCriteriaMet": [],
-      "exitCriteriaRemaining": [
+      "exitCriteriaMet": [
         "App runs with pnpm dev",
         "Real data visible on screen",
         "Core CRUD works",
@@ -46,7 +45,12 @@
         "Runnable verify script in package.json (types + build or lint) passing cleanly",
         "Phase 2 doc scope only per WORKFLOW §1a (no premature extra templates)"
       ],
-      "notes": []
+      "exitCriteriaRemaining": [],
+      "notes": [
+        "Chain append and verify stand in for CRUD. There is no database.",
+        "pnpm dev serves the spec site on the LocalSlip lease. pnpm verify typechecks and runs the hero-flow test.",
+        "Exit criteria look satisfied. Phase stays in progress until the user confirms the close."
+      ]
     },
     "3-stabilization": {
       "status": "not_started",
@@ -200,6 +204,14 @@
       "title": "Published npm package name",
       "decision": "The public package name is efficacy. packages/core stays private to the workspace.",
       "rationale": "The user staked the npm name efficacy. One public package is enough for v1."
+    },
+    {
+      "id": "dec-010",
+      "date": "2026-09-22",
+      "phase": "1-architecture",
+      "title": "Implementation license",
+      "decision": "The code is Apache-2.0. The spec stays CC0.",
+      "rationale": "User accepted Apache-2.0 so adopters receive a contributor patent grant."
     }
   ],
   "gotchas": [],
@@ -235,6 +247,18 @@
         "Confirmed FilePress, Cloudflare registrar and Pages, LocalSlip, no database, no GUI",
         "Locked docs/PHASE_1_BRIEF.md",
         "Recorded decisions dec-007 and dec-008"
+      ]
+    },
+    {
+      "session": 4,
+      "date": "2026-09-22",
+      "phase": "2-scaffolding",
+      "focus": "Scaffold the reference CLI and spec site",
+      "completed": [
+        "Closed Phase 1 after Apache-2.0 confirmation",
+        "Scaffolded the workspace, chain library, CLI, and FilePress site",
+        "pnpm verify passes, including the init-record-verify hero flow",
+        "Spec page renders at /spec on the dev server"
       ]
     }
   ]

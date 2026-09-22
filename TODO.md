@@ -1,0 +1,32 @@
+# Efficacy - Feature Backlog
+
+Flat list until a later pass groups work by product pillars.
+
+## Shipped in the scaffold
+
+- [x] pnpm workspace with `packages/core`, `packages/cli`, and `site/`
+- [x] Zod schemas for genesis, use, and retract at `efficacy/0.3`
+- [x] Canonical JSON and SHA-256 content hashes
+- [x] Ed25519 sign and verify
+- [x] Chain walker with named failures and trust tiers
+- [x] CLI `keygen`, `init`, `record`, `retract`, `verify`
+- [x] Hero flow covered by `packages/cli/test/hero.test.ts`
+- [x] FilePress site that renders the v0.3 spec
+
+## Next
+
+- [ ] Publish `efficacy` to npm when the version is ready. The package stays private until then.
+- [ ] Deploy `site/build` to Cloudflare Pages for efficacy.dev.
+- [ ] Dogfood one real `use` record whose evidence URL a stranger can fetch.
+- [ ] ColdEye pass when the repo is ready for a newcomer.
+- [ ] xFacts label when the public site is up.
+
+## Explicitly later
+
+- [ ] Key discovery, once the spec names the registry format.
+- [ ] Cross-repo chain links, once the spec names them.
+- [ ] Per-kind evidence schemas, once the spec names them.
+
+## Foundation
+
+- [ ] Keep `site/pages/spec.md` in sync when the spec changes (`pnpm spec:sync`).

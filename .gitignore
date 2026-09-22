@@ -8,3 +8,8 @@ build/
 Thumbs.db
 coverage/
 *.log
+*.pem
+site/build/
+site/.svelte-kit/
+site/.filepress/
+site/.filepress-genie/

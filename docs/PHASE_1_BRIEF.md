@@ -49,7 +49,7 @@ Coding agents, and the people who operate them, deciding whether a tool has chec
 ## 3. Constraints
 
 - **Technical:** TypeScript, ESM only, pnpm. Chains are append-only JSONL in the consumer repo. No database, no accounts, no runtime LLM. Canonical bytes are sorted-key JSON, UTF-8, no insignificant whitespace, `signature` excluded. Hash is SHA-256. Signature algorithm in examples is Ed25519. `key_id` resolves outside the record. Evidence URLs on `use` records are absolute `https://`.
-- **Business / timeline:** Public repo `https://github.com/Catalyst-Forge-LLC/efficacy.git`. Domain `efficacy.dev`. Spec license CC0. The published npm package name is `efficacy`. Implementation license is still open (Apache-2.0 recommended).
+- **Business / timeline:** Public repo `https://github.com/Catalyst-Forge-LLC/efficacy.git`. Domain `efficacy.dev`. Spec license CC0. The published npm package name is `efficacy`. Implementation license is Apache-2.0.
 - **Explicit non-goals for v1:** See §10. The haulout note in `docs/` is parked.
 
 ---
@@ -137,13 +137,13 @@ Skipped. Spec prose and records are hand-authored or produced by the CLI from me
 
 **D8. One published package, named `efficacy`.** `packages/core` stays a private workspace package and is consumed by the CLI. **Why:** the npm name `efficacy` is already staked, and v1 does not need a second public package.
 
+**D9. Implementation license is Apache-2.0.** The spec stays CC0. **Why:** adopters get a patent grant from contributors, which matters for a signed reference implementation published by an LLC.
+
 ---
 
 ## 9. Open questions (before or during Phase 2)
 
-| # | Question | Owner / resolve by |
-| --- | --- | --- |
-| 1 | Implementation license for the code. Spec stays CC0. Recommendation: Apache-2.0, because it includes a patent grant from contributors. MIT is the shorter copyright-only alternative. | User, before publish |
+None. The npm name and the implementation license are decided.
 
 ---
 

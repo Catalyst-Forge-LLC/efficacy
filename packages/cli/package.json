@@ -1,0 +1,22 @@
+{
+  "name": "efficacy",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "Create and verify efficacy records.",
+  "bin": {
+    "efficacy": "./src/main.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test test/hero.test.ts"
+  },
+  "dependencies": {
+    "@efficacy/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "typescript": "^5.9.2"
+  }
+}
