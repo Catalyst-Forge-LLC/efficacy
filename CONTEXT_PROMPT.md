@@ -16,7 +16,7 @@ Efficacy is a standard for machine-readable proof of tool success, written by ag
 - **Records:** Append-only `.efficacy/*.jsonl`. No database, no accounts, no runtime LLM.
 - **Crypto:** Node `crypto` Ed25519. Content hash is SHA-256 of canonical JSON. Signature prefix is `ed25519:` plus base64.
 - **Validation:** Zod schemas in `packages/core/src/schema.ts` for `efficacy/0.3`.
-- **Site:** FilePress (`getfilepress`). Package name `efficacy-site`. LocalSlip lease `efficacy-site` on port 4173. `filepress dev` reads that lease and does not take a `--port` flag.
+- **Site:** FilePress (`getfilepress`). `pages/` holds Home, About, and the spec. `site/docs/` builds a handbook mounted at `/docs`. Package name `efficacy-site`. LocalSlip lease `efficacy-site` on port 4173. `filepress dev` reads that lease and does not take a `--port` flag.
 - **Deploy target:** Cloudflare Pages. Registrar and DNS are Cloudflare. Domain `https://efficacy.dev`.
 - **License:** Spec CC0. Code Apache-2.0.
 - **Key dependencies:** `zod`. Site dev dependency `getfilepress`.
@@ -27,7 +27,7 @@ Efficacy is a standard for machine-readable proof of tool success, written by ag
 efficacy/
   packages/core/     schemas, canonical JSON, signing, chain checks
   packages/cli/      efficacy binary (keygen, init, record, retract, verify)
-  site/              FilePress spec site (pages/spec.md is generated)
+  site/              FilePress site (pages/, posts/, docs/ mounted at /docs)
   docs/              spec and Phase 1 brief
   scripts/           sync-spec-page.mjs
 ```

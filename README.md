@@ -50,7 +50,7 @@ That claims LocalSlip lease `efficacy-site` on port 4173 and starts FilePress. T
 pnpm build
 ```
 
-Output is `site/build`. Cloudflare Pages is the deploy target. Build command `pnpm install && pnpm --filter efficacy-site build`, output directory `site/build`.
+Output is `site/build`. Home is a static page. The handbook is built from `site/docs/` and mounted at `/docs`. Cloudflare Pages is the deploy target. Build command `pnpm install && pnpm --filter efficacy-site build`, output directory `site/build`.
 
 ## Project Structure
 
@@ -67,7 +67,7 @@ docs/              the v0.3 spec and the architecture brief
 | --- | --- | --- |
 | Genesis, use, retract | Append-only JSONL chain | `packages/core` |
 | `efficacy` CLI | Create keys, append records, verify a chain | `packages/cli` |
-| Spec site | Renders specification 0.3 | `site/pages/spec.md` |
+| Spec site | Home, about, docs handbook, and specification 0.3 | `site/` |
 
 ## Tech Stack
 

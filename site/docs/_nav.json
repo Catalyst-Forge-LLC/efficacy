@@ -1,0 +1,18 @@
+{
+  "sections": [
+    {
+      "title": "Start",
+      "items": [
+        { "id": "introduction", "title": "Introduction" },
+        { "id": "records", "title": "Records" }
+      ]
+    },
+    {
+      "title": "Check",
+      "items": [
+        { "id": "verify", "title": "Verify" },
+        { "id": "trust", "title": "Trust" }
+      ]
+    }
+  ]
+}

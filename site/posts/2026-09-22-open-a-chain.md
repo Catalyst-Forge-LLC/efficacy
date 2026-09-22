@@ -7,4 +7,4 @@ tags: [spec]
 
 Efficacy records what an agent used, what it measured, and whether that worked. A signed record is evidence only when the hashes and the evidence still match.
 
-The reference commands are `efficacy init`, `efficacy record`, and `efficacy verify`. The spec itself is at [/spec](/spec).
+The reference commands are `efficacy init`, `efficacy record`, and `efficacy verify`. The short handbook is at [/docs](/docs). The spec itself is at [/spec](/spec).
