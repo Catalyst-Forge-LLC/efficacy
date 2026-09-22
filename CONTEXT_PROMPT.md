@@ -106,7 +106,6 @@ Spec and CLI text stay literal. Reasons are one line. No marketing language in r
 ### Not Started
 
 - A real dogfood `use` record whose evidence URL is fetchable by a stranger.
-- npm publish. The CLI package is `private: true` until a version is ready.
 - ColdEye readiness pass and an xFacts label.
 
 ## Patterns to Follow
@@ -132,3 +131,5 @@ Spec and CLI text stay literal. Reasons are one line. No marketing language in r
 - Scaffolded the workspace, the chain library, the CLI, and the FilePress site.
 - `pnpm verify` typechecks, runs the chain tests and the hero-flow test, and checks the spec page.
 - `pnpm verify` also runs `scripts/pack-check.ts`: pack the CLI, install the tarball with npm in an empty folder, and run keygen → init → record → verify there at tier 3.
+- `efficacy@0.1.0` is on npm. Publish from `packages/cli` with `npm publish` after bumping the version.
+- `pnpm ship` builds the site and runs `wrangler pages deploy build --project-name=efficacy` from `site/`, the same as the sibling FilePress repos.

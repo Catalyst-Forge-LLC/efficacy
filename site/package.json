@@ -8,9 +8,12 @@
     "dev": "node docs/build.mjs && localslip claim efficacy-site --port 4173 && filepress dev",
     "build": "node docs/build.mjs && node ../scripts/sync-spec-page.mjs && filepress build",
     "preview": "filepress preview",
-    "check": "filepress check"
+    "check": "filepress check",
+    "ship": "pnpm build && wrangler pages deploy build --project-name=efficacy",
+    "deploy": "pnpm ship"
   },
   "devDependencies": {
-    "getfilepress": "^0.1.37"
+    "getfilepress": "^0.1.37",
+    "wrangler": "^4.136.3"
   }
 }

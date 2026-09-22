@@ -1,6 +1,16 @@
 import { spawnSync, type SpawnSyncOptions } from "node:child_process";
 import { createHash } from "node:crypto";
-import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -39,20 +49,34 @@ run("pnpm", ["pack", "--pack-destination", work], { cwd: cliDir, label: "pnpm pa
 const tarball = readdirSync(work).find((name) => name.endsWith(".tgz"));
 if (!tarball) fail("pnpm pack wrote no tarball");
 
-// npm publish from packages/cli drops fields it considers invalid (for example the bin entry) and only warns.
-const dryRun = spawnSync("npm publish --dry-run --json", { cwd: cliDir, encoding: "utf8", shell: true });
-if (dryRun.status !== 0) fail(`npm publish --dry-run exited ${dryRun.status}\n${dryRun.stdout}${dryRun.stderr}`);
-const corrected = `${dryRun.stdout}${dryRun.stderr}`
-  .split(/\r?\n/)
-  .filter((line) => /auto-corrected|invalid and removed/.test(line));
-if (corrected.length > 0) fail(`npm publish would rewrite package.json:\n${corrected.join("\n")}`);
-const summaryStart = dryRun.stdout.search(/^\{/m);
-if (summaryStart < 0) fail(`npm publish --dry-run printed no file list\n${dryRun.stdout}`);
-const npmFiles = (Object.values(JSON.parse(dryRun.stdout.slice(summaryStart)))[0] as { files: { path: string }[] }).files
-  .map((file) => file.path);
+// npm publish silently applies `npm pkg fix` (for example it drops a "./dist/main.js" bin entry) and only warns.
+const cliManifestPath = join(cliDir, "package.json");
+const fixDir = join(work, "pkg-fix");
+mkdirSync(fixDir);
+copyFileSync(cliManifestPath, join(fixDir, "package.json"));
+run("npm", ["pkg", "fix"], { cwd: fixDir, label: "npm pkg fix on a copy of packages/cli/package.json" });
+const before = JSON.parse(readFileSync(cliManifestPath, "utf8"));
+const after = JSON.parse(readFileSync(join(fixDir, "package.json"), "utf8"));
+if (JSON.stringify(before) !== JSON.stringify(after)) {
+  fail(`npm publish would rewrite packages/cli/package.json. Run npm pkg fix there and review the diff.\n  before: ${JSON.stringify(before.bin)}\n  after:  ${JSON.stringify(after.bin)}`);
+}
+
+const packList = run("npm", ["pack", "--dry-run", "--json"], { cwd: cliDir, label: "npm pack --dry-run" });
+const listStart = packList.search(/^[[{]/m);
+if (listStart < 0) fail(`npm pack --dry-run printed no file list\n${packList}`);
+// npm 10 prints an array of packs; npm 12 prints an object keyed by package name.
+const packs = JSON.parse(packList.slice(listStart)) as { files: { path: string }[] }[] | Record<string, { files: { path: string }[] }>;
+const npmFiles = (Array.isArray(packs) ? packs : Object.values(packs))[0].files.map((file) => file.path);
 for (const required of ["package.json", "dist/main.js", "LICENSE"]) {
   if (!npmFiles.includes(required)) fail(`npm publish would not ship ${required}`);
 }
+
+const published = spawnSync("npm view efficacy version", { encoding: "utf8", shell: true });
+const publishedVersion = published.status === 0 ? published.stdout.trim().split(/\r?\n/).pop() : undefined;
+const versionNote =
+  publishedVersion === before.version
+    ? `. Note: ${before.version} is already on npm, so bump version in packages/cli/package.json before the next publish`
+    : "";
 
 writeFileSync(join(work, "package.json"), JSON.stringify({ name: "app", private: true, type: "module" }));
 run("npm", ["install", "--no-audit", "--no-fund", "--loglevel=error", join(work, tarball)], {
@@ -128,5 +152,5 @@ if (!/ok 1 genesis gen_demo/.test(report) || !/ok 2 use rec_demo tier 3/.test(re
 
 rmSync(work, { recursive: true, force: true });
 process.stdout.write(
-  `pack check passed: ${tarball} installs with npm, ships ${shipped.length} files, and the installed efficacy command reaches tier 3\n`,
+  `pack check passed: ${tarball} installs with npm, ships ${shipped.length} files, and the installed efficacy command reaches tier 3${versionNote}\n`,
 );

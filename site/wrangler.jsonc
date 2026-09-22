@@ -1,0 +1,11 @@
+{
+	// Cloudflare Pages — static output only (no Worker script).
+	// Deploy:  pnpm ship   (= build + wrangler pages deploy build --project-name=efficacy)
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "efficacy",
+	"compatibility_date": "2026-09-22",
+	"pages_build_output_dir": "build",
+	"observability": {
+		"enabled": true
+	}
+}
