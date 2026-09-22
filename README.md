@@ -64,7 +64,7 @@ pnpm efficacy init --chain .efficacy/demo.jsonl --scope-type tool --scope-name d
 pnpm efficacy verify --chain .efficacy/demo.jsonl --public-key ./keys/efficacy-public.pem
 ```
 
-`efficacy record` appends a `use` line. It requires an evidence file that names the tool name, version, and hash, plus one measurement (`--tokens-saved`, `--iterations-avoided`, or `--time-saved-ms`). Run `pnpm efficacy` with no command to see the flags.
+`efficacy record` appends a `use` line. It requires an evidence file that names the tool name, version, and hash, plus one measurement (`--tokens-saved`, `--iterations-avoided`, or `--time-saved-ms`). `efficacy evidence` writes that file: it hashes `--tool-file`, names the tool, and lists any `--artifact` files with their hashes. Run `pnpm efficacy` with no command to see the flags.
 
 ### Spec site
 

@@ -113,10 +113,17 @@ const evidencePath = join(work, "evidence.json");
 const toolBytes = Buffer.from("demo-tool-bytes");
 const toolHash = `sha256:${createHash("sha256").update(toolBytes).digest("hex")}`;
 writeFileSync(toolPath, toolBytes);
-writeFileSync(evidencePath, JSON.stringify({ tool: { name: "demo-tool", version: "1.2.3", hash: toolHash } }));
 const privateKey = join(keys, "efficacy-private.pem");
 
 efficacy(["keygen", "--out", keys], "efficacy keygen");
+efficacy(
+  [
+    "evidence", "--out", evidencePath,
+    "--tool-name", "demo-tool", "--tool-version", "1.2.3", "--tool-file", toolPath,
+    "--action", "measured a demo run", "--result", "the next step reused the recorded choice",
+  ],
+  "efficacy evidence",
+);
 efficacy(
   [
     "init", "--chain", chain, "--id", "gen_demo",

@@ -21,13 +21,15 @@ or `pnpm add -g efficacy`, or run it once with `npx efficacy`. Node.js 22+.
 ```bash
 efficacy keygen --out ./keys
 efficacy init --chain .efficacy/my-tool.jsonl --scope-type tool --scope-name my-tool --action "opened a chain" --key ./keys/efficacy-private.pem --key-id https://example.com/keys#efficacy-key-v1
+efficacy evidence --out evidence/run-1.json --tool-name my-tool --tool-version 1.0.0 --tool-file ./my-tool.tgz --action "..." --result "..."
 efficacy record --chain .efficacy/my-tool.jsonl ...   # one measured use, bound to evidence
 efficacy verify --chain .efficacy/my-tool.jsonl --public-key ./keys/efficacy-public.pem
 ```
 
 1. `efficacy init` writes one signed genesis line.
-2. `efficacy record` appends a measured `use` line. It needs an evidence file that names the tool name, version, and hash, plus one measurement.
-3. `efficacy verify` walks the file and names the first broken check, or a trust tier.
+2. `efficacy evidence` hashes the tool file and writes an evidence file that names the tool name, version, and hash. Commit it somewhere public; its URL goes in the record.
+3. `efficacy record` appends a measured `use` line. It needs an evidence file that names the tool name, version, and hash, plus one measurement.
+4. `efficacy verify` walks the file and names the first broken check, or a trust tier.
 
 Run `efficacy help` for every command and flag. Keep the private key out of git.
 
