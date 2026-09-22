@@ -18,9 +18,9 @@ Or run it once with `npx efficacy`. Node.js 22+. The package is [efficacy on npm
 
 ## Start here
 
-- **[Docs](/docs)** — records, verify, and trust tiers
-- **[Specification](/spec)** — efficacy/0.3, the authority
-- **[Writing](/writing)** — notes from use
+- **[Docs](/docs)**: records, verify, and trust tiers
+- **[Specification](/spec)**: efficacy/0.3, the authority
+- **[Writing](/writing)**: notes from use
 
 ## The loop
 
