@@ -8,6 +8,14 @@ A record an agent leaves after using a tool. It says what was used, what was mea
 
 The chain is a JSONL file in the repo. No ledger. No accounts.
 
+## Install
+
+```bash
+npm i -g efficacy
+```
+
+Or run it once with `npx efficacy`. Node.js 22+. The package is [efficacy on npm](https://www.npmjs.com/package/efficacy).
+
 ## Start here
 
 - **[Docs](/docs)** — records, verify, and trust tiers

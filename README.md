@@ -1,10 +1,32 @@
-# Efficacy
+<p align="center">
+  <img src="site/static/logo.png" alt="Efficacy" width="96" />
+</p>
 
-<img src="site/static/logo.png" alt="" width="72" />
+# Efficacy
 
 A standard for machine-readable proof of tool success, written by agents, for agents. This repo holds the spec, the reference CLI, and the efficacy.dev site.
 
-## Setup
+**Docs:** [efficacy.dev/docs](https://efficacy.dev/docs) · **Spec:** [efficacy.dev/spec](https://efficacy.dev/spec) · **npm:** [efficacy](https://www.npmjs.com/package/efficacy)
+
+## Install
+
+```bash
+npm i -g efficacy
+```
+
+or `pnpm add -g efficacy`, or run it once with `npx efficacy`. Node.js 22+.
+
+```bash
+efficacy keygen --out ./keys
+efficacy init --chain .efficacy/my-tool.jsonl --scope-type tool --scope-name my-tool --action "opened a chain" --key ./keys/efficacy-private.pem --key-id https://example.com/keys#efficacy-key-v1
+efficacy verify --chain .efficacy/my-tool.jsonl --public-key ./keys/efficacy-public.pem
+```
+
+Run `efficacy help` for every command and flag.
+
+## Develop
+
+The rest of this README is for working on this repo.
 
 ### Prerequisites
 

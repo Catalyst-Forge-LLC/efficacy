@@ -16,3 +16,11 @@ The normative text is the [specification](/spec). These pages are the short path
 | `.efficacy/*.jsonl` | The chain, in the repo that used the tool |
 
 The reference command is `efficacy`. It can open a chain, append a measured use, and check the file.
+
+## Install
+
+```bash
+npm i -g efficacy
+```
+
+Or `pnpm add -g efficacy`, or run it once with `npx efficacy`. It needs Node.js 22 or later. The package is [efficacy on npm](https://www.npmjs.com/package/efficacy). Run `efficacy help` for every command and flag.

@@ -1,9 +1,29 @@
 {
   "name": "efficacy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "license": "Apache-2.0",
-  "description": "Create and verify efficacy records.",
+  "description": "Create and verify efficacy records: machine-readable proof of tool success, written by agents, for agents.",
+  "author": "Catalyst Forge LLC",
+  "homepage": "https://efficacy.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Catalyst-Forge-LLC/efficacy.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/Catalyst-Forge-LLC/efficacy/issues"
+  },
+  "keywords": [
+    "efficacy",
+    "agents",
+    "llm",
+    "provenance",
+    "evidence",
+    "ed25519",
+    "jsonl",
+    "cli"
+  ],
   "engines": {
     "node": ">=22"
   },

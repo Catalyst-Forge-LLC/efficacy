@@ -27,7 +27,7 @@ order: 2
 | --- | --- |
 | Standard | Efficacy |
 | Spec | `efficacy/0.3` |
-| CLI and npm package | `efficacy` |
+| CLI and npm package | [`efficacy`](https://www.npmjs.com/package/efficacy) |
 | Domain | efficacy.dev |
 | Chain files | `.efficacy/*.jsonl` |
 
