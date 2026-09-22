@@ -13,9 +13,7 @@
       "startedAt": "2026-09-21T00:00:00Z",
       "completedAt": null,
       "exitCriteriaMet": [
-        "Folder structure confirmed"
-      ],
-      "exitCriteriaRemaining": [
+        "Folder structure confirmed",
         "Tech choices confirmed",
         "Data model shape confirmed",
         "First feature batch defined",
@@ -23,9 +21,11 @@
         "PHASE_1_BRIEF.md created, complete, and locked (docs/)",
         "Major decisions recorded in workflow_tracking.json decisions[]"
       ],
+      "exitCriteriaRemaining": [],
       "notes": [
         "Phase 1 intake started from docs/efficacy-spec-v0.3.md and ForgeTrail kickoff.",
-        "2026-09-22: Monorepo and hero flow confirmed. docs/PHASE_1_BRIEF.md is draft until stack rows in section 4 and open questions in section 9 are confirmed."
+        "2026-09-22: Monorepo and hero flow confirmed.",
+        "2026-09-22: Brief locked. FilePress, Cloudflare registrar and Pages, LocalSlip for the site port, no database, no GUI. Publish questions (npm names, implementation license) stay open. Phase not closed until the user confirms the transition."
       ]
     },
     "2-scaffolding": {
@@ -175,6 +175,22 @@
       "title": "Do not invent spec-open answers",
       "decision": "v1 will not define a key registry, a shared public-key directory, cross-repo bridging, or per-kind evidence schemas.",
       "rationale": "efficacy-spec-v0.3 leaves those unresolved and says implementations must not invent them."
+    },
+    {
+      "id": "dec-007",
+      "date": "2026-09-22",
+      "phase": "1-architecture",
+      "title": "Spec site and hosting",
+      "decision": "site/ is a FilePress static site. efficacy.dev is registered at Cloudflare. DNS and production hosting are Cloudflare, with Pages for the site. No application database. No desktop GUI.",
+      "rationale": "User confirmed the stack and that the domain is already on Cloudflare."
+    },
+    {
+      "id": "dec-008",
+      "date": "2026-09-22",
+      "phase": "1-architecture",
+      "title": "Local port for the spec site",
+      "decision": "LocalSlip claims the FilePress dev port. Do not pass a hardcoded port and do not add a package only to read the lease.",
+      "rationale": "User accepted LocalSlip for the site. ColdEye and xFacts stay deferred."
     }
   ],
   "gotchas": [],
@@ -199,6 +215,17 @@
         "Confirmed monorepo and init-record-verify hero flow",
         "Drafted docs/PHASE_1_BRIEF.md",
         "Recorded decisions dec-004 through dec-006"
+      ]
+    },
+    {
+      "session": 3,
+      "date": "2026-09-22",
+      "phase": "1-architecture",
+      "focus": "Lock the architecture brief",
+      "completed": [
+        "Confirmed FilePress, Cloudflare registrar and Pages, LocalSlip, no database, no GUI",
+        "Locked docs/PHASE_1_BRIEF.md",
+        "Recorded decisions dec-007 and dec-008"
       ]
     }
   ]

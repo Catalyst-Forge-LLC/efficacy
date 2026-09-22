@@ -2,7 +2,7 @@
 
 _Structured capture of planning and architecture **before** code scaffolding. Goal: Phase 2 (or a new agent/session) can start from this file + `.forgetrail/workflow_tracking.json` without re-reading the whole Phase 1 chat._
 
-**Status:** `draft`  
+**Status:** `locked`  
 **Last updated:** `2026-09-22`  
 **Phase 1 exit:** Do not mark Phase 1 complete in `.forgetrail/workflow_tracking.json` until this brief is **locked** and major commitments are in `decisions[]`.
 
@@ -63,15 +63,15 @@ _Confirmed choices only after user sign-off. Mirror the same choices into `CONTE
 | Layout | pnpm workspace: `packages/core`, `packages/cli`, `site/` | confirmed | User chose monorepo |
 | Language | TypeScript, ESM | confirmed | Project rule |
 | Package manager | pnpm | confirmed | Project rule |
-| Framework | None for the engine. FilePress for `site/` | proposed | Spec site is Markdown, not an app |
-| DB / backend | None. `.efficacy/*.jsonl` is the store | proposed | Spec: piggyback on git |
-| Auth / storage | None. Local key file for signing; public key resolved outside the record | proposed | Spec forbids embedding the only copy of the public key |
-| Styling | FilePress defaults | proposed | |
-| Deploy / CI | Cloudflare Pages for `site/` | proposed | Static spec site |
+| Framework | None for the engine. FilePress for `site/` | confirmed | Spec site is Markdown, not an app |
+| DB / backend | None. `.efficacy/*.jsonl` is the store | confirmed | Spec: piggyback on git |
+| Auth / storage | None. Local key file for signing; public key resolved outside the record | confirmed | Spec forbids embedding the only copy of the public key |
+| Styling | FilePress defaults | confirmed | |
+| Deploy / CI | Cloudflare Pages for `site/` | confirmed | Static spec site |
 | Git host | GitHub | confirmed | |
-| DNS | Cloudflare | proposed | Registrar not named yet |
-| Registrar | Open | proposed | |
-| State persistence | Files in git. No browser state, no PocketBase | proposed | Chains outlive any browser by living in the repo |
+| DNS | Cloudflare | confirmed | Domain already on Cloudflare |
+| Registrar | Cloudflare | confirmed | User confirmed registration |
+| State persistence | Files in git. No browser state, no PocketBase | confirmed | Chains outlive any browser by living in the repo |
 
 ---
 
@@ -133,17 +133,16 @@ Skipped. Spec prose and records are hand-authored or produced by the CLI from me
 
 **D6. No application database.** **Why:** the chain is the product, and it already lives in git.
 
+**D7. Spec site on FilePress, published with Cloudflare Pages.** Registrar and DNS are both Cloudflare. LocalSlip claims the site dev port. ColdEye and xFacts wait until a readiness pass and a ship label. No desktop GUI. **Why:** the site is Markdown, the domain is already on Cloudflare, and the CLI’s users are agents in a terminal.
+
 ---
 
 ## 9. Open questions (before or during Phase 2)
 
 | # | Question | Owner / resolve by |
 | --- | --- | --- |
-| 1 | Lock the proposed rows in §4 (FilePress, Cloudflare DNS/Pages, no database)? | User, before Phase 2 |
-| 2 | npm package names: `efficacy` for the CLI, and what scope for core? | User, before first publish |
-| 3 | Implementation license (spec stays CC0) | User, before publish |
-| 4 | Where the domain is registered | User, before DNS cutover |
-| 5 | Adopt FilePress for `site/`, LocalSlip for the site dev port, and leave ColdEye and xFacts for later readiness and ship labels? | User, before Phase 2 scaffold |
+| 1 | npm package names: `efficacy` for the CLI, and what scope for core? | User, before first publish |
+| 2 | Implementation license (spec stays CC0) | User, before publish |
 
 ---
 
@@ -169,14 +168,14 @@ Skipped. Spec prose and records are hand-authored or produced by the CLI from me
 4. Ed25519 sign and verify over canonical bytes.
 5. Chain walker: genesis rules, `prev` links, retract targets, trust tier, plain-language failure.
 6. CLI commands `init`, `record`, `verify` covering the hero flow.
-7. `site/` FilePress shell that renders the v0.3 spec, once FilePress is confirmed.
+7. `site/` FilePress shell that renders the v0.3 spec. Local dev port comes from a LocalSlip claim. Do not pass a hardcoded port, and do not add a package whose only job is to read that port.
 
 ---
 
 ## 12. Handoff checklist (before leaving Phase 1)
 
 - [x] User confirmed monorepo layout and hero flow
-- [ ] User has confirmed the remaining stack rows in §4 and §9
-- [ ] This brief is **locked**
-- [x] `.forgetrail/workflow_tracking.json` has the monorepo and hero-flow decisions
+- [x] User confirmed the stack rows in §4
+- [x] This brief is **locked**. Remaining items are only the publish questions in §9
+- [x] `.forgetrail/workflow_tracking.json` has the architecture decisions
 - [ ] Phase 2 opener will read **this file** + `.forgetrail/workflow_tracking.json` first
