@@ -25,7 +25,8 @@
       "notes": [
         "Phase 1 intake started from docs/efficacy-spec-v0.3.md and ForgeTrail kickoff.",
         "2026-09-22: Monorepo and hero flow confirmed.",
-        "2026-09-22: Brief locked. FilePress, Cloudflare registrar and Pages, LocalSlip for the site port, no database, no GUI. Publish questions (npm names, implementation license) stay open. Phase not closed until the user confirms the transition."
+        "2026-09-22: Brief locked. FilePress, Cloudflare registrar and Pages, LocalSlip for the site port, no database, no GUI. Phase not closed until the user confirms the transition.",
+        "2026-09-22: npm package name efficacy recorded. Implementation license still open; Apache-2.0 recommended."
       ]
     },
     "2-scaffolding": {
@@ -191,6 +192,14 @@
       "title": "Local port for the spec site",
       "decision": "LocalSlip claims the FilePress dev port. Do not pass a hardcoded port and do not add a package only to read the lease.",
       "rationale": "User accepted LocalSlip for the site. ColdEye and xFacts stay deferred."
+    },
+    {
+      "id": "dec-009",
+      "date": "2026-09-22",
+      "phase": "1-architecture",
+      "title": "Published npm package name",
+      "decision": "The public package name is efficacy. packages/core stays private to the workspace.",
+      "rationale": "The user staked the npm name efficacy. One public package is enough for v1."
     }
   ],
   "gotchas": [],

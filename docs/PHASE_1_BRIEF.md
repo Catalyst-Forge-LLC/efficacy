@@ -49,7 +49,7 @@ Coding agents, and the people who operate them, deciding whether a tool has chec
 ## 3. Constraints
 
 - **Technical:** TypeScript, ESM only, pnpm. Chains are append-only JSONL in the consumer repo. No database, no accounts, no runtime LLM. Canonical bytes are sorted-key JSON, UTF-8, no insignificant whitespace, `signature` excluded. Hash is SHA-256. Signature algorithm in examples is Ed25519. `key_id` resolves outside the record. Evidence URLs on `use` records are absolute `https://`.
-- **Business / timeline:** Public repo `https://github.com/Catalyst-Forge-LLC/efficacy.git`. Domain `efficacy.dev`. Spec license CC0. Implementation license still open.
+- **Business / timeline:** Public repo `https://github.com/Catalyst-Forge-LLC/efficacy.git`. Domain `efficacy.dev`. Spec license CC0. The published npm package name is `efficacy`. Implementation license is still open (Apache-2.0 recommended).
 - **Explicit non-goals for v1:** See §10. The haulout note in `docs/` is parked.
 
 ---
@@ -135,14 +135,15 @@ Skipped. Spec prose and records are hand-authored or produced by the CLI from me
 
 **D7. Spec site on FilePress, published with Cloudflare Pages.** Registrar and DNS are both Cloudflare. LocalSlip claims the site dev port. ColdEye and xFacts wait until a readiness pass and a ship label. No desktop GUI. **Why:** the site is Markdown, the domain is already on Cloudflare, and the CLI’s users are agents in a terminal.
 
+**D8. One published package, named `efficacy`.** `packages/core` stays a private workspace package and is consumed by the CLI. **Why:** the npm name `efficacy` is already staked, and v1 does not need a second public package.
+
 ---
 
 ## 9. Open questions (before or during Phase 2)
 
 | # | Question | Owner / resolve by |
 | --- | --- | --- |
-| 1 | npm package names: `efficacy` for the CLI, and what scope for core? | User, before first publish |
-| 2 | Implementation license (spec stays CC0) | User, before publish |
+| 1 | Implementation license for the code. Spec stays CC0. Recommendation: Apache-2.0, because it includes a patent grant from contributors. MIT is the shorter copyright-only alternative. | User, before publish |
 
 ---
 
