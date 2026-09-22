@@ -6,7 +6,7 @@
     "archetype": "product",
     "status": "active"
   },
-  "currentPhase": "2-scaffolding",
+  "currentPhase": "3-stabilization",
   "phases": {
     "1-architecture": {
       "status": "completed",
@@ -30,9 +30,9 @@
       ]
     },
     "2-scaffolding": {
-      "status": "in_progress",
+      "status": "completed",
       "startedAt": "2026-09-22T18:07:00Z",
-      "completedAt": null,
+      "completedAt": "2026-09-22T21:40:00Z",
       "exitCriteriaMet": [
         "App runs with pnpm dev",
         "Real data visible on screen",
@@ -49,12 +49,12 @@
       "notes": [
         "Chain append and verify stand in for CRUD. There is no database.",
         "pnpm dev serves the spec site on the LocalSlip lease. pnpm verify typechecks and runs the hero-flow test.",
-        "Exit criteria look satisfied. Phase stays in progress until the user confirms the close."
+        "Closed on user confirmation after efficacy.dev went live and efficacy@0.1.0 was published to npm."
       ]
     },
     "3-stabilization": {
-      "status": "not_started",
-      "startedAt": null,
+      "status": "in_progress",
+      "startedAt": "2026-09-22T21:40:00Z",
       "completedAt": null,
       "exitCriteriaMet": [],
       "exitCriteriaRemaining": [
@@ -63,7 +63,10 @@
         "Core workflow completes without infrastructure errors",
         "Error messages are human-readable (not just status codes)"
       ],
-      "notes": []
+      "notes": [
+        "No environment variables are required. Signing keys are files passed to the CLI.",
+        "There is no server API. The live surfaces are the static site on Cloudflare Pages and the npm CLI; pnpm verify covers a clean npm install of the CLI."
+      ]
     },
     "4-feature-iteration": {
       "status": "not_started",
@@ -212,6 +215,14 @@
       "title": "Implementation license",
       "decision": "The code is Apache-2.0. The spec stays CC0.",
       "rationale": "User accepted Apache-2.0 so adopters receive a contributor patent grant."
+    },
+    {
+      "id": "dec-011",
+      "date": "2026-09-22",
+      "phase": "2-scaffolding",
+      "title": "Release path",
+      "decision": "pnpm ship deploys the site with wrangler pages deploy. The CLI ships as one bundled dist/main.js, published with npm publish from packages/cli.",
+      "rationale": "Matches the sibling FilePress repos. Node does not strip types under node_modules, so the published bin must be JavaScript."
     }
   ],
   "gotchas": [],
@@ -259,6 +270,19 @@
         "Scaffolded the workspace, chain library, CLI, and FilePress site",
         "pnpm verify passes, including the init-record-verify hero flow",
         "Spec page renders at /spec on the dev server"
+      ]
+    },
+    {
+      "session": 5,
+      "date": "2026-09-22",
+      "phase": "2-scaffolding",
+      "focus": "Site pages, logo, and first release",
+      "completed": [
+        "Added home, about, and a /docs handbook to the site",
+        "Adopted a photoreal brass plumb bob as the mark",
+        "Bundled the CLI and added a clean npm install check to pnpm verify",
+        "Added pnpm ship; efficacy.dev is live and efficacy@0.1.0 is on npm",
+        "Closed Phase 2 on user confirmation"
       ]
     }
   ]
