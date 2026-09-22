@@ -12,10 +12,11 @@
       "status": "in_progress",
       "startedAt": "2026-09-21T00:00:00Z",
       "completedAt": null,
-      "exitCriteriaMet": [],
+      "exitCriteriaMet": [
+        "Folder structure confirmed"
+      ],
       "exitCriteriaRemaining": [
         "Tech choices confirmed",
-        "Folder structure confirmed",
         "Data model shape confirmed",
         "First feature batch defined",
         "Claude's understanding verified by user",
@@ -23,7 +24,8 @@
         "Major decisions recorded in workflow_tracking.json decisions[]"
       ],
       "notes": [
-        "Phase 1 intake started from docs/efficacy-spec-v0.3.md and ForgeTrail kickoff."
+        "Phase 1 intake started from docs/efficacy-spec-v0.3.md and ForgeTrail kickoff.",
+        "2026-09-22: Monorepo and hero flow confirmed. docs/PHASE_1_BRIEF.md is draft until stack rows in section 4 and open questions in section 9 are confirmed."
       ]
     },
     "2-scaffolding": {
@@ -149,6 +151,30 @@
       "title": "Spec authority",
       "decision": "docs/efficacy-spec-v0.3.md is the active specification for the project. Haulout doc ignored for initial kickoff.",
       "rationale": "User prompt directive."
+    },
+    {
+      "id": "dec-004",
+      "date": "2026-09-22",
+      "phase": "1-architecture",
+      "title": "Monorepo layout",
+      "decision": "pnpm workspace with packages/core, packages/cli, and site/.",
+      "rationale": "User confirmed monorepo. Core stays usable without the CLI; the spec site stays separate from the crypto package."
+    },
+    {
+      "id": "dec-005",
+      "date": "2026-09-22",
+      "phase": "1-architecture",
+      "title": "v1 hero flow",
+      "decision": "efficacy init writes a genesis JSONL line, efficacy record appends a use line, efficacy verify walks the chain and reports the first failed check or a trust tier.",
+      "rationale": "User confirmed this as the v1 hero flow."
+    },
+    {
+      "id": "dec-006",
+      "date": "2026-09-22",
+      "phase": "1-architecture",
+      "title": "Do not invent spec-open answers",
+      "decision": "v1 will not define a key registry, a shared public-key directory, cross-repo bridging, or per-kind evidence schemas.",
+      "rationale": "efficacy-spec-v0.3 leaves those unresolved and says implementations must not invent them."
     }
   ],
   "gotchas": [],
@@ -162,6 +188,17 @@
         "Initialized ForgeTrail workflow tracking and Cursor rules",
         "Reviewed efficacy-spec-v0.3.md",
         "Analyzed architectural scope, companions, and hero flow"
+      ]
+    },
+    {
+      "session": 2,
+      "date": "2026-09-22",
+      "phase": "1-architecture",
+      "focus": "Lock layout and hero flow into the architecture brief",
+      "completed": [
+        "Confirmed monorepo and init-record-verify hero flow",
+        "Drafted docs/PHASE_1_BRIEF.md",
+        "Recorded decisions dec-004 through dec-006"
       ]
     }
   ]
