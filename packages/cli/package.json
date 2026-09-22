@@ -1,7 +1,6 @@
 {
   "name": "efficacy",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "type": "module",
   "license": "Apache-2.0",
   "description": "Create and verify efficacy records.",
@@ -9,7 +8,7 @@
     "node": ">=22"
   },
   "bin": {
-    "efficacy": "./dist/main.js"
+    "efficacy": "dist/main.js"
   },
   "files": [
     "dist"

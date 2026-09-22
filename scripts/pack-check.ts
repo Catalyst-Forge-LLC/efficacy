@@ -39,6 +39,21 @@ run("pnpm", ["pack", "--pack-destination", work], { cwd: cliDir, label: "pnpm pa
 const tarball = readdirSync(work).find((name) => name.endsWith(".tgz"));
 if (!tarball) fail("pnpm pack wrote no tarball");
 
+// npm publish from packages/cli drops fields it considers invalid (for example the bin entry) and only warns.
+const dryRun = spawnSync("npm publish --dry-run --json", { cwd: cliDir, encoding: "utf8", shell: true });
+if (dryRun.status !== 0) fail(`npm publish --dry-run exited ${dryRun.status}\n${dryRun.stdout}${dryRun.stderr}`);
+const corrected = `${dryRun.stdout}${dryRun.stderr}`
+  .split(/\r?\n/)
+  .filter((line) => /auto-corrected|invalid and removed/.test(line));
+if (corrected.length > 0) fail(`npm publish would rewrite package.json:\n${corrected.join("\n")}`);
+const summaryStart = dryRun.stdout.search(/^\{/m);
+if (summaryStart < 0) fail(`npm publish --dry-run printed no file list\n${dryRun.stdout}`);
+const npmFiles = (Object.values(JSON.parse(dryRun.stdout.slice(summaryStart)))[0] as { files: { path: string }[] }).files
+  .map((file) => file.path);
+for (const required of ["package.json", "dist/main.js", "LICENSE"]) {
+  if (!npmFiles.includes(required)) fail(`npm publish would not ship ${required}`);
+}
+
 writeFileSync(join(work, "package.json"), JSON.stringify({ name: "app", private: true, type: "module" }));
 run("npm", ["install", "--no-audit", "--no-fund", "--loglevel=error", join(work, tarball)], {
   cwd: work,
@@ -49,7 +64,7 @@ const installed = join(work, "node_modules", "efficacy");
 const shipped = listFiles(installed);
 const unexpected = shipped.filter((file) => /^(src|test)\//.test(file) || file.endsWith(".ts") || file.endsWith(".pem"));
 if (unexpected.length > 0) fail(`tarball ships files it should not: ${unexpected.join(", ")}`);
-for (const required of ["package.json", "dist/main.js"]) {
+for (const required of ["package.json", "dist/main.js", "LICENSE"]) {
   if (!shipped.includes(required)) fail(`tarball is missing ${required}`);
 }
 

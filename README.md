@@ -30,7 +30,9 @@ pnpm verify
 
 That typechecks, runs the tests, and confirms `site/pages/spec.md` matches `docs/efficacy-spec-v0.3.md`. It then packs the CLI the way `npm publish` would, installs the tarball into an empty folder with npm, and runs keygen, init, record, and verify from that install. If `pnpm verify` passes, the package works for someone who installs it from npm. Run only that last step with `pnpm pack:check`.
 
-The published package is one bundled file, `packages/cli/dist/main.js`, built by `pnpm --filter efficacy build`. `packages/cli` is still `"private": true`. Remove that line when you are ready to publish.
+The published package is one bundled file, `packages/cli/dist/main.js`, built by `pnpm --filter efficacy build`. The check also runs `npm publish --dry-run` in `packages/cli` and fails if npm would rewrite `package.json` or leave out `LICENSE`.
+
+To publish, set `version` in `packages/cli/package.json`, run `pnpm verify`, then run `npm publish` from `packages/cli`. The root `package.json` is the workspace. It stays `"private": true` and is never published.
 
 ### Use the CLI
 
