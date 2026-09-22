@@ -8,14 +8,14 @@
     "node": ">=22"
   },
   "scripts": {
-    "efficacy": "efficacy",
+    "efficacy": "node packages/cli/src/main.ts",
     "dev": "pnpm --filter efficacy-site dev",
     "build": "pnpm --filter efficacy-site build",
-    "verify": "pnpm -r --if-present run typecheck && pnpm -r --if-present run test && node scripts/sync-spec-page.mjs --check",
+    "verify": "pnpm -r --if-present run typecheck && pnpm -r --if-present run test && node scripts/sync-spec-page.mjs --check && node scripts/pack-check.ts",
+    "pack:check": "node scripts/pack-check.ts",
     "spec:sync": "node scripts/sync-spec-page.mjs"
   },
   "devDependencies": {
-    "efficacy": "workspace:*",
     "typescript": "^5.9.2"
   },
   "license": "Apache-2.0",

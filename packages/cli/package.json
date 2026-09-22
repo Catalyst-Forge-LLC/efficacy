@@ -5,18 +5,25 @@
   "type": "module",
   "license": "Apache-2.0",
   "description": "Create and verify efficacy records.",
-  "bin": {
-    "efficacy": "./src/main.ts"
+  "engines": {
+    "node": ">=22"
   },
+  "bin": {
+    "efficacy": "./dist/main.js"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "build": "esbuild src/main.ts --bundle --platform=node --format=esm --target=node22 --outfile=dist/main.js",
+    "prepack": "pnpm run build",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "node --test test/hero.test.ts"
   },
-  "dependencies": {
-    "@efficacy/core": "workspace:*"
-  },
   "devDependencies": {
+    "@efficacy/core": "workspace:*",
     "@types/node": "^24.5.2",
+    "esbuild": "^0.28.2",
     "typescript": "^5.9.2"
   }
 }

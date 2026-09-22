@@ -112,7 +112,7 @@ Spec and CLI text stay literal. Reasons are one line. No marketing language in r
 ## Patterns to Follow
 
 - Name the failed check in stderr as `fail <check>: <detail>` or `fail <line> <kind> <id> check <name>: <detail>`.
-- Keep `@efficacy/core` private. The public bin is `efficacy`.
+- Keep `@efficacy/core` private. The public bin is `efficacy`. esbuild bundles core into `packages/cli/dist/main.js`; the package ships only `dist`.
 - When the spec changes, update the schema in the same change and run `pnpm spec:sync`.
 
 ## Anti-Patterns to Avoid
@@ -122,6 +122,7 @@ Spec and CLI text stay literal. Reasons are one line. No marketing language in r
 - Do not rewrite earlier JSONL lines. Append only.
 - Do not pass `--port` to `filepress dev`. Claim `efficacy-site` with LocalSlip first.
 - Do not add a package whose only job is to read the LocalSlip lease.
+- Do not point the `efficacy` bin at a `.ts` file. Node will not strip types under `node_modules`, so the installed command would fail.
 
 ## Recent Changes
 
@@ -130,3 +131,4 @@ Spec and CLI text stay literal. Reasons are one line. No marketing language in r
 - Locked Apache-2.0 for the code and closed Phase 1.
 - Scaffolded the workspace, the chain library, the CLI, and the FilePress site.
 - `pnpm verify` typechecks, runs the chain tests and the hero-flow test, and checks the spec page.
+- `pnpm verify` also runs `scripts/pack-check.ts`: pack the CLI, install the tarball with npm in an empty folder, and run keygen → init → record → verify there at tier 3.
