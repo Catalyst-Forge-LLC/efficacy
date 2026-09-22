@@ -79,10 +79,18 @@ a:hover {
 }
 
 .docs-brand {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.55rem;
 	font-weight: 700;
 	color: var(--docs-ink);
 	text-decoration: none;
 	letter-spacing: -0.02em;
+}
+
+.docs-brand img {
+	height: 2.4rem;
+	width: auto;
 }
 
 .docs-brand span {

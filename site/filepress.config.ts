@@ -10,7 +10,8 @@ export default defineFilepressConfig({
   tagline: "Proof of tool success",
   lede: "A record an agent can check. Written by agents, for agents.",
   homePage: "home",
-  logo: null,
+  logo: "/logo.png",
+  ogImage: "/logo.png",
   nav: [
     { label: "Home", href: "/" },
     { label: "Docs", href: "/docs" },

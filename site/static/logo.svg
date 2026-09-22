@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 72" fill="none" role="img" aria-label="Efficacy">
+	<title>Efficacy</title>
+	<!-- Borderless mark: a record page closed with a chain seal. No badge/plate. -->
+	<style>
+		.page { fill: #f4efe6; stroke: #2c241c; }
+		.fold { fill: #d9d0c0; stroke: #2c241c; }
+		.ink { stroke: #2c241c; }
+		.link { fill: #2c241c; }
+		.seal { fill: #c4a035; stroke: #2c241c; }
+		@media (prefers-color-scheme: dark) {
+			.page { fill: #1a1612; stroke: #e4d6c4; }
+			.fold { fill: #12100e; stroke: #e4d6c4; }
+			.ink { stroke: #e4d6c4; }
+			.link { fill: #e4d6c4; }
+			.seal { fill: #e0c15a; stroke: #e4d6c4; }
+		}
+	</style>
+
+	<path class="page" stroke-width="1.6" stroke-linejoin="round" d="M14 16h26l14 14v36H14z" />
+	<path class="fold" stroke-width="1.6" stroke-linejoin="round" d="M40 16v14h14z" />
+
+	<g class="ink" stroke-width="1.55" stroke-linecap="round">
+		<line x1="20" y1="34" x2="42" y2="34" />
+		<line x1="20" y1="41" x2="36" y2="41" opacity="0.55" />
+	</g>
+
+	<!-- Brass seal with a chain-link impression. The hole shows the page. -->
+	<path
+		class="seal"
+		fill-rule="evenodd"
+		stroke-width="1.35"
+		stroke-linejoin="round"
+		d="M46 47a11 11 0 1 0 0.01 0z M43 54h6a4 4 0 0 1 0 8h-6a4 4 0 0 1 0-8z"
+	/>
+
+	<!-- Link bound to the seal -->
+	<path
+		class="link"
+		fill-rule="evenodd"
+		d="M25 53h8a5 5 0 0 1 0 10h-8a5 5 0 0 1 0-10z M27.3 55.3h3.4a2.7 2.7 0 0 1 0 5.4h-3.4a2.7 2.7 0 0 1 0-5.4z"
+	/>
+</svg>

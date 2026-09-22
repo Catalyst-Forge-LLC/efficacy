@@ -249,12 +249,13 @@ function renderPage(item, bodyHtml, toc, prev, next) {
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>${escapeHtml(title)} · Efficacy docs</title>
 	<meta name="description" content="Efficacy documentation — ${escapeHtml(title)}" />
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 	<link rel="stylesheet" href="/docs/assets/docs.css" />
 </head>
 <body>
 	<header class="docs-top">
 		<button type="button" class="docs-menu-btn" data-docs-menu aria-label="Toggle docs menu">Menu</button>
-		<a class="docs-brand" href="/docs/">Efficacy <span>docs</span></a>
+		<a class="docs-brand" href="/docs/"><img src="/logo.svg" alt="" />Efficacy <span>docs</span></a>
 		<nav class="docs-top-links">
 			<a href="/">Home</a>
 			<a href="/spec">Spec</a>
