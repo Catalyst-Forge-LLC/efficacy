@@ -66,6 +66,14 @@ export async function runVerify(argv: string[]): Promise<void> {
     }
   }
   if (!report.ok) process.exit(1);
+
+  const uses = report.lines.filter((line) => line.kind === "use");
+  const current = uses.filter((line) => line.tier !== null && line.tier >= 3).map((line) => `${line.id} tier ${line.tier}`);
+  const retracted = uses.filter((line) => line.retractedBy).length;
+  const weak = uses.length - current.length - retracted;
+  process.stdout.write(
+    `summary: ${current.length} current evidence${current.length ? ` (${current.join(", ")})` : ""}, ${weak} below tier 3, ${retracted} retracted\n`,
+  );
 }
 
 function arrayFlag(value: unknown): string[] | undefined {

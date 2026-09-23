@@ -267,7 +267,109 @@ test("a later confirming use raises the earlier record to tier 4", () => {
   });
   assert.equal(report.ok, true);
   assert.equal(report.lines[1]?.tier, 4);
+  assert.match(report.lines[1]?.detail ?? "", /confirmed by rec_second \(same key_id, not independent\)/);
   assert.equal(report.lines[2]?.tier, 3);
+});
+
+type UseSpec = { id: string; version?: string; evidence?: string; verdict?: "pass" | "fail" };
+
+function buildChain(steps: (UseSpec | { retract: string })[]) {
+  const keys = generateEd25519Pem();
+  const toolBytes = new Map<string, Uint8Array>();
+  const evidenceBytes = new Map<string, Uint8Array>();
+  const genesis = signRecord(
+    {
+      spec: "efficacy/0.3",
+      kind: "genesis",
+      id: "gen",
+      scope: { type: "tool", name: "demo-tool" },
+      action: "opened a chain",
+      reason: "first record; no prior chain existed",
+      prev: null,
+      key_id: keyId,
+      signed_at: signedAt,
+    },
+    keys.privateKeyPem,
+  );
+  const records: Record<string, unknown>[] = [genesis];
+  const hashes = new Map<string, string>([["gen", contentHash(genesis)]]);
+  for (const step of steps) {
+    const prev = contentHash(records[records.length - 1]);
+    if ("retract" in step) {
+      records.push(
+        signRecord(
+          {
+            spec: "efficacy/0.3",
+            kind: "retract",
+            id: `retract_${step.retract}`,
+            prev,
+            retracts: hashes.get(step.retract),
+            reason: "withdrawn",
+            key_id: keyId,
+            signed_at: signedAt,
+          },
+          keys.privateKeyPem,
+        ),
+      );
+      continue;
+    }
+    const version = step.version ?? "1.2.3";
+    const tool = new TextEncoder().encode(`tool-${version}`);
+    const toolHash = sha256File(tool);
+    const evidence = new TextEncoder().encode(
+      JSON.stringify({ tool: { name: "demo-tool", version, hash: toolHash }, run: step.evidence ?? step.id }),
+    );
+    toolBytes.set(step.id, tool);
+    evidenceBytes.set(step.id, evidence);
+    const use = signRecord(
+      {
+        spec: "efficacy/0.3",
+        kind: "use",
+        id: step.id,
+        prev,
+        tool: { name: "demo-tool", version, hash: toolHash, locator: "https://example.com/demo-tool" },
+        action: "measured a run",
+        measurement: { tokens_saved: 1 },
+        verdict: step.verdict ?? "pass",
+        reason: "placeholder",
+        evidence: { url: `https://example.com/runs/${step.id}.json`, hash: sha256File(evidence), kind: "test-run" },
+        key_id: keyId,
+        signed_at: signedAt,
+      },
+      keys.privateKeyPem,
+    );
+    records.push(use);
+    hashes.set(step.id, contentHash(use));
+  }
+  return verifyChain(chainText(records), { publicKeyPem: keys.publicKeyPem, toolBodies: toolBytes, evidenceBodies: evidenceBytes });
+}
+
+test("a retracted use loses its tier and cannot confirm another", () => {
+  const report = buildChain([{ id: "rec_a" }, { id: "rec_b" }, { retract: "rec_b" }]);
+  assert.equal(report.ok, true);
+  assert.equal(report.lines[1]?.tier, 3);
+  assert.equal(report.lines[2]?.tier, null);
+  assert.equal(report.lines[2]?.retractedBy, "retract_rec_b");
+  assert.match(report.lines[2]?.detail ?? "", /^retracted by retract_rec_b, not current evidence; was tier 3/);
+});
+
+test("retracting genesis leaves no current use records", () => {
+  const report = buildChain([{ id: "rec_a" }, { id: "rec_b" }, { retract: "gen" }]);
+  assert.equal(report.ok, true);
+  assert.equal(report.lines[1]?.tier, null);
+  assert.equal(report.lines[2]?.tier, null);
+  assert.match(report.lines[1]?.detail ?? "", /^chain abandoned by retract_gen/);
+});
+
+test("confirmation needs the same tool version and different evidence", () => {
+  const otherVersion = buildChain([{ id: "rec_a" }, { id: "rec_b", version: "2.0.0" }]);
+  assert.equal(otherVersion.lines[1]?.tier, 3);
+
+  const sameEvidence = buildChain([{ id: "rec_a", evidence: "shared" }, { id: "rec_b", evidence: "shared" }]);
+  assert.equal(sameEvidence.lines[1]?.tier, 3);
+
+  const failed = buildChain([{ id: "rec_a" }, { id: "rec_b", verdict: "fail" }]);
+  assert.equal(failed.lines[1]?.tier, 3);
 });
 
 test("retract points at an earlier content hash", () => {

@@ -11,6 +11,8 @@ export type LineResult = {
   check?: string;
   tier: number | null;
   detail: string;
+  /** Id of the retract record that withdrew this record, or abandoned the chain. */
+  retractedBy?: string;
 };
 
 export type VerifyOptions = {
@@ -175,6 +177,7 @@ export function verifyChain(text: string, options: VerifyOptions = {}): { ok: bo
     });
   }
 
+  applyRetractions(results, checked);
   applyConfirmations(results, checked);
   return { ok: results.every((line) => line.ok), lines: results };
 }
@@ -234,6 +237,7 @@ function checkUse(record: UseRecord, raw: Record<string, unknown>, options: Veri
     return { ok: false, check: "signature", detail: "signature does not match the canonical record" };
   } else {
     signatureOk = true;
+    notes.push("signature matches the supplied public key; key_id not resolved");
   }
 
   let tier = 1;
@@ -243,19 +247,51 @@ function checkUse(record: UseRecord, raw: Record<string, unknown>, options: Veri
   return { ok: true, tier, notes };
 }
 
+/** Retracted records stay in history but lose their tier. Retracting genesis abandons the chain. */
+function applyRetractions(results: LineResult[], checked: Checked[]): void {
+  const retractedBy = new Map<string, string>();
+  for (const item of checked) {
+    if (item.record.kind === "retract") retractedBy.set(item.record.retracts, item.record.id);
+  }
+  const genesis = checked[0];
+  const abandonedBy = genesis ? retractedBy.get(genesis.hash) : undefined;
+
+  for (const item of checked) {
+    const result = results.find((line) => line.line === item.line && line.ok);
+    if (!result) continue;
+    const direct = item.record.kind === "genesis" ? undefined : retractedBy.get(item.hash);
+    const by = direct ?? (item.record.kind === "retract" ? undefined : abandonedBy);
+    if (!by) continue;
+    result.retractedBy = by;
+    const was = result.tier === null ? "" : `; was tier ${result.tier}`;
+    result.detail = `${direct ? "retracted by" : "chain abandoned by"} ${by}, not current evidence${was}`;
+    result.tier = null;
+  }
+}
+
 function applyConfirmations(results: LineResult[], checked: Checked[]): void {
   const uses = checked.flatMap((item, index) => {
     if (item.record.kind !== "use") return [];
     const result = results.find((line) => line.line === item.line && line.ok);
     if (!result || result.tier === null) return [];
-    return [{ index, name: item.record.tool.name, verdict: item.record.verdict, tier: result.tier, result }];
+    return [{ index, record: item.record, tier: result.tier, result }];
   });
 
   for (const current of uses) {
-    if (current.tier !== 3) continue;
-    const confirmed = uses.some(
-      (later) => later.index > current.index && later.name === current.name && later.verdict === "pass" && later.tier >= 3,
+    if (current.tier !== 3 || current.record.verdict !== "pass") continue;
+    const confirmer = uses.find(
+      (later) =>
+        later.index > current.index &&
+        later.tier >= 3 &&
+        later.record.verdict === "pass" &&
+        later.record.tool.name === current.record.tool.name &&
+        later.record.tool.version === current.record.tool.version &&
+        later.record.tool.hash === current.record.tool.hash &&
+        later.record.evidence.hash !== current.record.evidence.hash,
     );
-    if (confirmed) current.result.tier = 4;
+    if (!confirmer) continue;
+    current.result.tier = 4;
+    const sameKey = confirmer.record.key_id === current.record.key_id;
+    current.result.detail = `confirmed by ${confirmer.record.id}${sameKey ? " (same key_id, not independent)" : ""}; ${current.result.detail}`;
   }
 }

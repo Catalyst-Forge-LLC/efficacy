@@ -29,6 +29,23 @@ export function lastContentHash(chainPath: string): string {
   }
 }
 
+export function contentHashForId(chainPath: string, id: string): string {
+  const lines = readFileSync(chainPath, "utf8")
+    .split(/\r?\n/)
+    .filter((line) => line.trim().length > 0);
+  for (const line of lines) {
+    let raw: unknown;
+    try {
+      raw = JSON.parse(line) as unknown;
+    } catch {
+      continue;
+    }
+    if (raw && typeof raw === "object" && (raw as Record<string, unknown>).id === id) return contentHash(raw);
+  }
+  process.stderr.write(`fail retracts: no record with id ${id} in ${chainPath}\n`);
+  process.exit(1);
+}
+
 export function appendRecord(chainPath: string, line: string): void {
   mkdirSync(dirname(chainPath), { recursive: true });
   const file = existsSync(chainPath) ? readFileSync(chainPath, "utf8") : "";

@@ -1,6 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
-import { evidenceBinds, formatSchemaError, serializeRecord, sha256File, signRecord, SPEC_VERSION, useSchema } from "@efficacy/core";
+import { contentHash, evidenceBinds, formatSchemaError, serializeRecord, sha256File, signRecord, SPEC_VERSION, useSchema } from "@efficacy/core";
 import { flag, optional, optionalNumber, readFlags } from "./args.ts";
 import { appendRecord, lastContentHash } from "./chain-file.ts";
 
@@ -117,5 +117,5 @@ export function runRecord(argv: string[]): void {
   }
   const signed = signRecord(draft, readFileSync(flag(values, "key"), "utf8"));
   appendRecord(chain, serializeRecord(signed));
-  process.stdout.write(`wrote use ${signed.id} to ${chain}\n`);
+  process.stdout.write(`wrote use ${signed.id} to ${chain} (content ${contentHash(signed)})\n`);
 }
