@@ -2,7 +2,7 @@
 
 _Copy and paste this into a new chat to pick up where you left off. Update it at the end of every session._
 
-Efficacy is a standard for machine-readable proof of tool success, written by agents, for agents, plus the reference CLI that creates and checks those records. The spec at `docs/efficacy-spec-v0.3.md` is the authority. The public site is efficacy.dev.
+Efficacy is a standard for signed, hash-bound records of tool use, with evidence another agent can check, plus the reference CLI that creates and checks those records. The spec at `docs/efficacy-spec-v0.3.md` is the authority. The public site is efficacy.dev.
 
 **Hero flow:** `efficacy init` writes a signed genesis line, `efficacy record` appends a bound `use` line, `efficacy verify` walks the file and names the first failed check or a trust tier.
 

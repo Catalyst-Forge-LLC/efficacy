@@ -55,15 +55,16 @@ export function runRecord(argv: string[]): void {
     process.exit(1);
   }
 
+  const toolFile = optional(values, "tool-file");
+  const toolFileHash = toolFile ? sha256File(readFileSync(toolFile)) : undefined;
   const tool = {
     name: flag(values, "tool-name"),
     version: flag(values, "tool-version"),
-    hash: flag(values, "tool-hash"),
+    hash: optional(values, "tool-hash") ?? toolFileHash ?? flag(values, "tool-hash"),
     locator: flag(values, "tool-locator"),
   };
-  const toolFile = optional(values, "tool-file");
-  if (toolFile) {
-    const actual = sha256File(readFileSync(toolFile));
+  if (toolFileHash) {
+    const actual = toolFileHash;
     if (actual !== tool.hash) {
       process.stderr.write(`fail tool-hash: file hashed to ${actual}, record says ${tool.hash}\n`);
       process.exit(1);

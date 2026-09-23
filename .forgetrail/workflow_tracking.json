@@ -223,6 +223,14 @@
       "title": "Release path",
       "decision": "pnpm ship deploys the site with wrangler pages deploy. The CLI ships as one bundled dist/main.js, published with npm publish from packages/cli.",
       "rationale": "Matches the sibling FilePress repos. Node does not strip types under node_modules, so the published bin must be JavaScript."
+    },
+    {
+      "id": "dec-012",
+      "date": "2026-09-22",
+      "phase": "3-stabilization",
+      "title": "Verification boundary and tier 4",
+      "decision": "Verify reports record integrity, not claim truth. Retracted records lose their tier and cannot confirm. Tier 4 needs a later passing tier-3 use of the same tool name, version, and hash with different evidence; same-key confirmations are labelled not independent. Signature notes say key_id was not resolved. Proposed spec changes (measurement basis, observer, chain_url, private evidence, independent signer) live in docs/efficacy-spec-v0.4-draft.md and are not implemented until accepted.",
+      "rationale": "External README review: proof wording overclaimed, savings-only measurement invites invented counterfactuals, and retracted records still showed a tier."
     }
   ],
   "gotchas": [],

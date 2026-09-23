@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "type": "module",
   "license": "Apache-2.0",
-  "description": "Create and verify efficacy records: machine-readable proof of tool success, written by agents, for agents.",
+  "description": "Create and verify efficacy records: signed, hash-bound records of tool use, with evidence another agent can check.",
   "author": "Catalyst Forge LLC",
   "homepage": "https://efficacy.dev",
   "repository": {
@@ -37,7 +37,7 @@
     "build": "esbuild src/main.ts --bundle --platform=node --format=esm --target=node22 --outfile=dist/main.js",
     "prepack": "pnpm run build",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "node --test test/hero.test.ts"
+    "test": "node --test test/hero.test.ts test/readme.test.ts"
   },
   "devDependencies": {
     "@efficacy/core": "workspace:*",
