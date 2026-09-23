@@ -216,3 +216,5 @@ docs/              the v0.3 spec, the 0.4 draft, and the architecture brief
 - [Specification 0.4 draft](docs/efficacy-spec-v0.4-draft.md): proposed changes, not yet implemented
 - [Architecture brief](docs/PHASE_1_BRIEF.md)
 - [TODO.md](TODO.md)
+
+[See the rest of the Catalyst Forge shelf.](https://catalystforge.com/tools/)
