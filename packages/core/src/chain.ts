@@ -135,9 +135,16 @@ export function verifyChain(text: string, options: VerifyOptions = {}): { ok: bo
     }
 
     if (record.kind === "retract") {
-      const known = checked.some((item) => item.hash === record.retracts);
-      if (!known) {
+      const target = checked.find((item) => item.hash === record.retracts);
+      if (!target) {
         results.push(fail(entry.line, record.id, record.kind, "retracts", "retracts does not match an earlier record hash"));
+        broken = true;
+        continue;
+      }
+      if (target.record.kind === "retract") {
+        results.push(
+          fail(entry.line, record.id, record.kind, "retracts", `cannot retract retract ${target.record.id}; write a new use record instead`),
+        );
         broken = true;
         continue;
       }

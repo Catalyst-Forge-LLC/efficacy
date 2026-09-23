@@ -296,21 +296,21 @@ function buildChain(steps: (UseSpec | { retract: string })[]) {
   for (const step of steps) {
     const prev = contentHash(records[records.length - 1]);
     if ("retract" in step) {
-      records.push(
-        signRecord(
-          {
-            spec: "efficacy/0.3",
-            kind: "retract",
-            id: `retract_${step.retract}`,
-            prev,
-            retracts: hashes.get(step.retract),
-            reason: "withdrawn",
-            key_id: keyId,
-            signed_at: signedAt,
-          },
-          keys.privateKeyPem,
-        ),
+      const retract = signRecord(
+        {
+          spec: "efficacy/0.3",
+          kind: "retract",
+          id: `retract_${step.retract}`,
+          prev,
+          retracts: hashes.get(step.retract),
+          reason: "withdrawn",
+          key_id: keyId,
+          signed_at: signedAt,
+        },
+        keys.privateKeyPem,
       );
+      records.push(retract);
+      hashes.set(`retract_${step.retract}`, contentHash(retract));
       continue;
     }
     const version = step.version ?? "1.2.3";
@@ -359,6 +359,13 @@ test("retracting genesis leaves no current use records", () => {
   assert.equal(report.lines[1]?.tier, null);
   assert.equal(report.lines[2]?.tier, null);
   assert.match(report.lines[1]?.detail ?? "", /^chain abandoned by retract_gen/);
+});
+
+test("a retract cannot target another retract", () => {
+  const report = buildChain([{ id: "rec_a" }, { retract: "rec_a" }, { retract: "retract_rec_a" }]);
+  assert.equal(report.ok, false);
+  assert.equal(report.lines[3]?.check, "retracts");
+  assert.match(report.lines[3]?.detail ?? "", /cannot retract retract retract_rec_a/);
 });
 
 test("confirmation needs the same tool version and different evidence", () => {

@@ -106,8 +106,31 @@ This is not a transparency log. It moves the freshness question to one named loc
 **0.4:**
 
 - An implementation that checks signatures against a key supplied by the consumer, rather than one resolved from `key_id`, must report that. The reference CLI prints `signature matches the supplied public key; key_id not resolved`.
-- `/.well-known/efficacy-keys.json` becomes the first mechanism to implement. Its format is still open (see below).
+- `/.well-known/efficacy-keys.json` becomes the first mechanism to implement.
 - Verifying a signature is not a decision to trust the signer. Consumers decide which signers they trust.
+
+### Key file format *(provisional until a real record uses it)*
+
+```json
+{
+  "spec": "efficacy/0.4",
+  "keys": [
+    {
+      "id": "efficacy-key-v1",
+      "alg": "ed25519",
+      "public_key": "-----BEGIN PUBLIC KEY-----\n...\n-----END PUBLIC KEY-----\n",
+      "created": "2026-09-22",
+      "status": "active"
+    }
+  ]
+}
+```
+
+- A record's `key_id` is the URL of this file plus `#` and the key's `id`, for example `https://efficacy.dev/.well-known/efficacy-keys.json#efficacy-key-v1`.
+- `status` is `active`, `retired`, or `compromised`. `retired` and `compromised` keys also carry a `status_since` date.
+- **`retired`** is normal rotation. Records signed before `status_since` stay valid. Records claiming a later `signed_at` fail check `key-retired`.
+- **`compromised`** fails every record signed with that key, whatever its `signed_at`, with check `key-compromised`. `signed_at` is asserted by the signer, so whoever holds a stolen key can backdate. A cutoff date means nothing after a compromise.
+- A key that is missing from the file fails check `key-unknown`.
 
 ## 8. Retraction effects
 
@@ -117,7 +140,7 @@ This is not a transparency log. It moves the freshness question to one named loc
 
 - A retracted `use` keeps its line, has no tier, and cannot confirm another record.
 - Retracting genesis removes every `use` in the chain from current evidence.
-- A `retract` may itself be retracted, which restores the original record. *(Open: whether this is allowed at all.)*
+- A `retract` may not target another `retract`. Verification fails with check `retracts`. If a retraction was a mistake, write a new `use` record. It may cite the same evidence as the retracted one. Re-affirming a claim is a new claim, and readers never have to resolve retractions of retractions to learn what is current.
 
 ## 9. Tool hash for non-package tools
 
@@ -127,14 +150,63 @@ This is not a transparency log. It moves the freshness question to one named loc
 
 - Published npm package: hash the tarball `npm pack` produces for that version. `tool.locator` is the package page or the tarball URL.
 - Single-file tool (a `SKILL.md`, a rule): hash the file bytes. `tool.locator` should be the raw file at a fixed commit, so a verifier can fetch and hash it.
-- Multi-file tool that is not a package: open (see below).
+- Multi-file tool that is not a package: prefer publishing it as a package and hashing the tarball. Otherwise hash a **manifest**:
+  1. List every file in the tool as `<relative path> <sha256 hex>`, one per line. Paths use `/`, are relative to the tool root, and are UTF-8.
+  2. Sort the lines by path, as bytes.
+  3. Join them with `\n`, with a trailing `\n`.
+  4. `tool.hash` is `sha256:` plus the SHA-256 of that text.
+
+  The evidence must include the manifest text, so a verifier can see exactly which files were covered. Git tree hashes are not used. They tie the format to git, and most repositories still use SHA-1.
+
+## 10. Environment
+
+**0.3:** "How agents should compare measurements taken on different models or machines" is open.
+
+**0.4:** A `use` record may carry `environment`:
+
+```json
+"environment": { "model": "gpt-6-pro", "runtime": "node 22.12", "machine": "8-core laptop" }
+```
+
+All fields are optional strings. Measurements from different environments are not comparable, and the spec does not normalize them. The `compared` basis (§2) already covers the comparison that matters: the baseline and the tool run in the same environment, inside one record. Comparing across records is the reader's judgment. When `environment` is missing, readers treat cross-record comparison as unsupported.
+
+## 11. Minimum evidence content *(provisional until real records exist)*
+
+**0.3:** "Minimum evidence schema per `evidence.kind`" is open.
+
+**0.4:** Requirements follow the measurement basis (§2), not `evidence.kind`. Whether a comparison was made matters more than whether the file is a test run or a benchmark.
+
+| Applies to | The evidence must contain |
+| --- | --- |
+| Every `use` | Tool identity (`name`, `version`, `hash`), a `result` line, and `observed_at` |
+| `basis: compared` | Also both sides' values, and the baseline conditions |
+| `basis: estimated` | Also a sentence on how the estimate was made |
+| Manifest-hashed tools (§9) | Also the manifest text |
+
+`efficacy evidence` already writes the first row. Requirements per `evidence.kind` wait until there are enough real records to learn from.
 
 ---
 
+## Status of each change
+
+| Section | Status |
+| --- | --- |
+| 1. Framing and verification scope | Proposed |
+| 2. Measurement basis | Proposed |
+| 3. Observer and recording policy | Proposed |
+| 4. Canonical chain location | Proposed |
+| 5. Private evidence | Proposed |
+| 6. Independent confirmation | Proposed. Same-key confirmations are already labelled `not independent` in the reference CLI. |
+| 7. Signature and key resolution | Proposed. The key file format is provisional. |
+| 8. Retraction effects | Accepted. Retracting a `retract` is rejected. |
+| 9. Tool hash, including manifests | Accepted |
+| 10. Environment | Accepted |
+| 11. Minimum evidence content | Provisional |
+
+"Accepted" means agreed for 0.4 and ready to implement. "Provisional" means the shape is agreed but may change after the first live records. "Proposed" is still open for discussion.
+
 ## Still open
 
-- Key registry format for `/.well-known/efficacy-keys.json`
-- Hashing a multi-file tool that is not a package
-- Whether a `retract` may be retracted
-- How to compare measurements taken on different models or machines (open since 0.3)
-- Minimum evidence schema per `evidence.kind` (open since 0.3)
+- Sections 1–7, which are proposed but not yet accepted
+- The provisional key file format (§7) and minimum evidence content (§11)
+- New questions from the first live records
