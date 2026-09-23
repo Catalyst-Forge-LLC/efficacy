@@ -12,7 +12,7 @@ export function runKeygen(argv: string[]): void {
   mkdirSync(out, { recursive: true });
   const privatePath = join(out, "efficacy-private.pem");
   const publicPath = join(out, "efficacy-public.pem");
-  writeFileSync(privatePath, keys.privateKeyPem, { flag: "wx" });
+  writeFileSync(privatePath, keys.privateKeyPem, { flag: "wx", mode: 0o600 });
   writeFileSync(publicPath, keys.publicKeyPem, { flag: "wx" });
   process.stdout.write(`wrote ${privatePath}\nwrote ${publicPath}\n`);
 }

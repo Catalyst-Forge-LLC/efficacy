@@ -185,6 +185,18 @@ All fields are optional strings. Measurements from different environments are no
 
 `efficacy evidence` already writes the first row. Requirements per `evidence.kind` wait until there are enough real records to learn from.
 
+## 12. Canonical JSON and binding, made exact
+
+**0.3:** "Sort object keys lexicographically." "The evidence artifact must itself name or include the same `tool.name`, `tool.version`, and `tool.hash`."
+
+**0.4:**
+
+- Keys sort by UTF-16 code unit at every level, as strings. Integer-like keys get no special order: `"10"` sorts before `"2"`.
+- Every own key is kept, including `__proto__`. Numbers must be finite. Values outside JSON (`undefined`, functions) are an error, not silently dropped.
+- Cross-implementation vectors live in `packages/core/test/vectors.json`: a record, its exact canonical string, its content hash, and an Ed25519 signature with the public key.
+- JSON evidence binds only through an object whose `name`, `version`, and `hash` equal the record's exactly. Plain-text evidence binds only through a whole line `efficacy-tool: <name> <version> <hash>`. Substring matches never bind.
+- Compatibility: this changes canonical bytes only for records with integer-like keys or a `__proto__` key. No published records had either when this was adopted.
+
 ---
 
 ## Status of each change
@@ -202,6 +214,7 @@ All fields are optional strings. Measurements from different environments are no
 | 9. Tool hash, including manifests | Accepted |
 | 10. Environment | Accepted |
 | 11. Minimum evidence content | Provisional |
+| 12. Canonical JSON and binding | Accepted and implemented. These are corrections to 0.3 behavior, not new features. |
 
 "Accepted" means agreed for 0.4 and ready to implement. "Provisional" means the shape is agreed but may change after the first live records. "Proposed" is still open for discussion.
 

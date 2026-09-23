@@ -1,5 +1,6 @@
 export { canonicalJson, contentHash, serializeRecord, sha256File, withoutSignature } from "./canonical.ts";
-export { evidenceBinds } from "./binding.ts";
+export { addressIsNonPublic, hostnameIsNonPublic } from "./address.ts";
+export { evidenceBinds, toolIdentityLine } from "./binding.ts";
 export { verifyChain, type LineResult, type VerifyOptions } from "./chain.ts";
 export {
   SPEC_VERSION,

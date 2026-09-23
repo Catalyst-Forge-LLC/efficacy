@@ -2,7 +2,7 @@ import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { formatSchemaError, retractSchema, serializeRecord, signRecord, SPEC_VERSION } from "@efficacy/core";
 import { flag, optional, readFlags } from "./args.ts";
-import { appendRecord, contentHashForId, lastContentHash } from "./chain-file.ts";
+import { appendRecord, lastContentHash, retractTarget } from "./chain-file.ts";
 
 export function runRetract(argv: string[]): void {
   const values = readFlags(argv, {
@@ -28,7 +28,7 @@ export function runRetract(argv: string[]): void {
     kind: "retract" as const,
     id: optional(values, "id") ?? `rec_${randomBytes(8).toString("hex")}`,
     prev,
-    retracts: byHash ?? contentHashForId(chain, byId as string),
+    retracts: retractTarget(chain, byId !== undefined ? { id: byId } : { hash: byHash }),
     reason: flag(values, "reason"),
     key_id: flag(values, "key-id"),
     signed_at: optional(values, "signed-at") ?? new Date().toISOString(),

@@ -29,20 +29,27 @@ export function lastContentHash(chainPath: string): string {
   }
 }
 
-export function contentHashForId(chainPath: string, id: string): string {
+/** Finds the record a retract will point at, by id or content hash, and refuses targets verify would reject. */
+export function retractTarget(chainPath: string, target: { id?: string; hash?: string }): string {
   const lines = readFileSync(chainPath, "utf8")
     .split(/\r?\n/)
     .filter((line) => line.trim().length > 0);
   for (const line of lines) {
-    let raw: unknown;
+    let raw: Record<string, unknown>;
     try {
-      raw = JSON.parse(line) as unknown;
+      raw = JSON.parse(line) as Record<string, unknown>;
     } catch {
       continue;
     }
-    if (raw && typeof raw === "object" && (raw as Record<string, unknown>).id === id) return contentHash(raw);
+    const hash = contentHash(raw);
+    if (target.id !== undefined ? raw.id !== target.id : hash !== target.hash) continue;
+    if (raw.kind === "retract") {
+      process.stderr.write(`fail retracts: ${String(raw.id)} is a retract; write a new use record instead\n`);
+      process.exit(1);
+    }
+    return hash;
   }
-  process.stderr.write(`fail retracts: no record with id ${id} in ${chainPath}\n`);
+  process.stderr.write(`fail retracts: no record with ${target.id !== undefined ? `id ${target.id}` : `hash ${target.hash}`} in ${chainPath}\n`);
   process.exit(1);
 }
 

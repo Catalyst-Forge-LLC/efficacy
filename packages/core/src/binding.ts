@@ -19,12 +19,23 @@ function findTool(value: unknown, tool: ToolIdentity): boolean {
   return Object.values(record).some((entry) => findTool(entry, tool));
 }
 
-/** The evidence body names this tool version and hash, as JSON or as plain text. */
+/** The line plain-text evidence must contain to bind: `efficacy-tool: <name> <version> <hash>`. */
+export function toolIdentityLine(tool: ToolIdentity): string {
+  return `efficacy-tool: ${tool.name} ${tool.version} ${tool.hash}`;
+}
+
+/**
+ * JSON evidence binds only through an object with exactly this name, version, and hash.
+ * Plain text binds only through a whole line from `toolIdentityLine`. No substring matching:
+ * version 1.2.3 must not bind to evidence about 1.2.30.
+ */
 export function evidenceBinds(body: string, tool: ToolIdentity): boolean {
+  let parsed: unknown;
   try {
-    if (findTool(JSON.parse(body) as unknown, tool)) return true;
+    parsed = JSON.parse(body) as unknown;
   } catch {
-    // Transcripts and other non-JSON evidence fall through to text search.
+    const wanted = toolIdentityLine(tool);
+    return body.split(/\r?\n/).some((line) => line.trim() === wanted);
   }
-  return body.includes(tool.name) && body.includes(tool.version) && body.includes(tool.hash);
+  return findTool(parsed, tool);
 }

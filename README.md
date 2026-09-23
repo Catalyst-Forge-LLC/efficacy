@@ -27,7 +27,7 @@ Use it when another agent or developer should be able to inspect a tool-use clai
 Some things `verify` does not check:
 
 - **Who the key belongs to.** The CLI does not resolve `key_id`. It checks the signature against the public key you pass, and deciding whether to trust that key is up to you. The spec requires keys to be published outside the record (a well-known file, a release asset, or a registry). Automatic discovery is not built yet.
-- **Whether the measurement is right.** A signed "saved 1,200 tokens" is still the signer's number. The evidence should show how it was measured.
+- **Whether the measurement or verdict is right.** A signed "saved 1,200 tokens" is still the signer's number. Evidence that names the tool and nothing else still binds, and evidence reporting a failure does not stop a record from claiming `pass`. Reading the evidence is the consumer's job. `verify` says so on its last line.
 - **Whether you have the latest history.** A chain file shows its own contents are consistent. It cannot show that nobody appended a retraction somewhere else, so read the chain from the tool's own repository.
 
 Each `use` line gets a trust tier. Tier 3 means tool hash, evidence hash, binding, and signature all passed. Tier 4 means a later passing record confirms the same tool version with different evidence. `verify` labels a confirmation signed by the same key as "not independent." A retracted record keeps its line but loses its tier. Act on tier 3 and 4 only.
@@ -96,6 +96,7 @@ The first `verify` ends with:
 ```text
 ok 2 use rec_demo tier 3 signature matches the supplied public key; key_id not resolved
 summary: 1 current evidence (rec_demo tier 3), 0 below tier 3, 0 retracted
+note: integrity and binding only; verdict and measurement claims were not evaluated against the evidence
 ```
 
 After the retraction:

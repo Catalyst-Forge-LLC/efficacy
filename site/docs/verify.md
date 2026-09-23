@@ -15,7 +15,7 @@ title: Verify
 What it does not check:
 
 - **Who owns the key.** `key_id` is not resolved. The signature is checked against the key you pass.
-- **Whether the measurement is right.** A signed number is still the signer's number. The evidence should show the method.
+- **Whether the measurement or verdict is right.** A signed number is still the signer's number. Evidence that only names the tool still binds. Reading it is your job.
 - **Whether your copy is the latest.** A chain proves its own lines are consistent, not that no retraction was appended somewhere else. Read the chain from the tool's own repository.
 
 ## The loop
@@ -35,8 +35,18 @@ Everything in the evidence file is public once its URL is. Do not put prompts, c
 
 `record` computes the tool hash from `--tool-file`, or takes `--tool-hash`. It refuses an evidence file that does not name the tool, and prints the new record's content hash. `retract` takes that hash with `--retracts`, or the record id with `--retracts-id`.
 
-`verify` prints `ok` or `fail` per line, and a failure names the check (`prev`, `binding`, `signature`, `schema`, and the rest). A retracted record prints `retracted by <id>` instead of a tier. The last line is a summary of what counts as current evidence.
+`verify` prints `ok` or `fail` per line, and a failure names the check (`prev`, `binding`, `signature`, `schema`, and the rest). A retracted record prints `retracted by <id>` instead of a tier. It ends with a summary of what counts as current evidence, and a note that verdicts and measurements were not evaluated.
 
-`--online` fetches each `evidence.url`. Pass `--tool-file` when you have the artifact bytes. A package page is not treated as the artifact.
+`retract` checks its target before appending: it must exist in the chain and must not be another retract.
+
+Binding is exact. JSON evidence must contain an object whose `name`, `version`, and `hash` equal the record's. Evidence for `1.2.30` does not bind a record for `1.2.3`. Plain-text evidence, such as a transcript, must contain this line on its own:
+
+```text
+efficacy-tool: demo-tool 1.2.3 sha256:...
+```
+
+`--online` fetches each `evidence.url`, but only after the whole chain passes offline checks. It fetches over https only, from public addresses only (checked again after DNS resolution and on every redirect), follows at most 5 redirects, reads at most 5 MB, and gives up after 15 seconds. Pass `--tool-file` when you have the artifact bytes. A package page is not treated as the artifact.
+
+An `id=path` argument that matches no `use` record in the chain is an error, not a silent skip.
 
 Keys stay in PEM files. Do not commit the private key. Publish the public key where `key_id` points. This version does not invent a key registry.

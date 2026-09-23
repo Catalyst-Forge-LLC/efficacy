@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { hostnameIsNonPublic } from "./address.ts";
 
 export const SPEC_VERSION = "efficacy/0.3";
 
@@ -9,17 +10,6 @@ const contentHash = z
 const signature = z
   .string()
   .regex(/^ed25519:[A-Za-z0-9+/]+={0,2}$/, "must be ed25519:<base64>");
-
-function hostnameIsLocal(hostname: string): boolean {
-  const host = hostname.toLowerCase().replace(/^\[|\]$/g, "");
-  return (
-    host === "localhost" ||
-    host === "127.0.0.1" ||
-    host === "::1" ||
-    host.endsWith(".local") ||
-    host.endsWith(".localhost")
-  );
-}
 
 function parseUrl(value: string): URL | undefined {
   try {
@@ -33,15 +23,15 @@ const remoteUrl = z.string().refine((value) => {
   const url = parseUrl(value);
   if (!url) return false;
   if (url.protocol !== "https:" && url.protocol !== "http:") return false;
-  return !hostnameIsLocal(url.hostname);
-}, "must be an absolute http(s) URL that is not local");
+  return !hostnameIsNonPublic(url.hostname);
+}, "must be an absolute http(s) URL that is not local or a private address");
 
 const evidenceUrl = z.string().refine((value) => {
   const url = parseUrl(value);
   if (!url) return false;
   if (url.protocol !== "https:") return false;
-  return !hostnameIsLocal(url.hostname);
-}, "must be an absolute public https URL");
+  return !hostnameIsNonPublic(url.hostname);
+}, "must be an absolute https URL that is not local or a private address");
 
 const common = {
   spec: z.literal(SPEC_VERSION),

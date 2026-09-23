@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
@@ -108,6 +108,34 @@ test("init, record, and verify complete the hero flow", () => {
   assert.match(verify.stdout, /ok 1 genesis gen_demo/);
   assert.match(verify.stdout, /ok 2 use rec_demo tier 3/);
   assert.equal(readFileSync(chain, "utf8").trim().split(/\r?\n/).length, 2);
+
+  const typo = run(dir, ["verify", "--chain", chain, "--evidence-file", `rec_dmeo=${evidencePath}`]);
+  assert.equal(typo.status, 1);
+  assert.match(typo.stderr, /fail args: --evidence-file rec_dmeo=\.\.\. matches no use record/);
+
+  const key = join(keydir, "efficacy-private.pem");
+  const retractArgs = ["--reason", "test", "--key", key, "--key-id", keyId];
+  const missing = run(dir, ["retract", "--chain", chain, "--retracts", `sha256:${"0".repeat(64)}`, ...retractArgs]);
+  assert.equal(missing.status, 1);
+  assert.match(missing.stderr, /fail retracts: no record with hash/);
+  assert.equal(readFileSync(chain, "utf8").trim().split(/\r?\n/).length, 2, "a failed retract appends nothing");
+
+  const first = run(dir, ["retract", "--chain", chain, "--id", "retract_demo", "--retracts-id", "rec_demo", ...retractArgs]);
+  assert.equal(first.status, 0, first.stderr);
+  const second = run(dir, ["retract", "--chain", chain, "--retracts-id", "retract_demo", ...retractArgs]);
+  assert.equal(second.status, 1);
+  assert.match(second.stderr, /fail retracts: retract_demo is a retract/);
+
+  if (process.platform !== "win32") {
+    assert.equal(statSync(key).mode & 0o777, 0o600);
+  }
+});
+
+test("online fetches refuse local and private hosts before connecting", async () => {
+  const { fetchEvidence } = await import("../src/fetch.ts");
+  for (const url of ["http://example.com/e.json", "https://localhost/e.json", "https://10.0.0.8/e.json", "https://[::1]/e.json", "https://169.254.169.254/latest"]) {
+    await assert.rejects(fetchEvidence(url), /refusing/, url);
+  }
 });
 
 test("evidence writes a file that binds a record to the tool", () => {
@@ -181,4 +209,12 @@ test("evidence writes a file that binds a record to the tool", () => {
   ]);
   assert.equal(verify.status, 0, verify.stderr);
   assert.match(verify.stdout, /ok 2 use rec_skill tier 3/);
+  assert.match(verify.stdout, /note: integrity and binding only/);
+
+  const tampered = join(dir, ".efficacy", "tampered.jsonl");
+  writeFileSync(tampered, readFileSync(chain, "utf8").replace("the cited defect was real and is fixed", "edited later"));
+  const online = run(dir, ["verify", "--chain", tampered, "--public-key", join(keydir, "efficacy-public.pem"), "--online"]);
+  assert.equal(online.status, 1);
+  assert.match(online.stderr, /check signature/);
+  assert.match(online.stderr, /fail online: the chain failed offline checks, so no evidence URLs were fetched/);
 });

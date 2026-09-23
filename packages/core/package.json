@@ -9,7 +9,7 @@
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "node --test test/canonical.test.ts test/chain.test.ts"
+    "test": "node --test test/canonical.test.ts test/chain.test.ts test/binding.test.ts test/address.test.ts"
   },
   "dependencies": {
     "zod": "^3.25.76"
