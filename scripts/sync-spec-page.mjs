@@ -6,7 +6,7 @@ const repo = join(dirname(fileURLToPath(import.meta.url)), "..");
 const spec = readFileSync(join(repo, "docs", "efficacy-spec-v0.3.md"), "utf8");
 const page = `---
 title: Specification 0.3
-description: Machine-readable proof of tool success, written by agents, for agents.
+description: Signed records of tool use. Verification checks the binding. The reader decides whether the evidence supports the claim.
 order: 1
 ---
 

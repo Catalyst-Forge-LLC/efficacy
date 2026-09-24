@@ -11,7 +11,7 @@ The changes come from a review of the README. Its core point: verifying a record
 
 ## 1. Framing and verification scope
 
-**0.3:** Opens with "machine-readable proof of tool success." The limits appear later, under "What this is not."
+**0.3:** Opens with signed records of tool use, and says verification does not decide whether the claim is true.
 
 **0.4:** The opening becomes: *"Signed, hash-bound records of tool use, with evidence another agent can check."* A new section, **Verification scope**, follows the introduction:
 

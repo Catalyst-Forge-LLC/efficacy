@@ -30,7 +30,7 @@ Some things `verify` does not check:
 - **Whether the measurement or verdict is right.** A signed "saved 1,200 tokens" is still the signer's number. Evidence that names the tool and nothing else still binds, and evidence reporting a failure does not stop a record from claiming `pass`. Reading the evidence is the consumer's job. `verify` says so on its last line.
 - **Whether you have the latest history.** A chain file shows its own contents are consistent. It cannot show that nobody appended a retraction somewhere else, so read the chain from the tool's own repository.
 
-Each `use` line gets a trust tier. Tier 3 means tool hash, evidence hash, binding, and signature all passed. Tier 4 means a later passing record confirms the same tool version with different evidence. `verify` labels a confirmation signed by the same key as "not independent." A retracted record keeps its line but loses its tier. Act on tier 3 and 4 only.
+Each `use` line gets a trust tier. Tier 3 means tool hash, evidence hash, binding, and signature all passed. Tier 4 means a later passing record confirms the same tool version with different evidence. `verify` labels a confirmation signed by the same key as "not independent." A retracted record keeps its line but loses its tier. Consider acting only after those checks pass, you have examined the artifacts, and the signer is acceptable for your use. Verification does not decide whether the claim is true.
 
 ## What a record can say
 

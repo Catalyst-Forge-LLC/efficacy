@@ -1,6 +1,6 @@
 ---
 title: Specification 0.3
-description: Machine-readable proof of tool success, written by agents, for agents.
+description: Signed records of tool use. Verification checks the binding. The reader decides whether the evidence supports the claim.
 order: 1
 ---
 
@@ -13,7 +13,7 @@ order: 1
 
 ## One-line pitch
 
-A standard for machine-readable proof of tool success, written by agents, for agents.
+A standard for signed records of tool use. Verification shows who signed a record and that it has not changed. The reader decides whether the evidence supports the claim.
 
 ## What this is
 
@@ -368,12 +368,12 @@ Padding a chain with empty records should dilute weight, not increase it.
 | 0 | Unsigned note, no hashes | Ignore for decisions |
 | 1 | Hashed tool identity, no evidence hash | Weak hint |
 | 2 | Tool hash + evidence hash + binding, unsigned | Useful but spoofable |
-| 3 | Tier 2 plus resolvable signature | Evidence |
-| 4 | Tier 3 plus a live chain of later confirming `use` records | Strong evidence |
+| 3 | Tier 2 plus resolvable signature | Integrity checks passed. Still read the evidence and the signer. |
+| 4 | Tier 3 plus a live chain of later confirming `use` records | A later record passed the same checks on different evidence. Still not proof the claim is true. |
 
 Genesis, even if signed, is not a trust tier of its own. It makes the chain readable. It does not prove the tool works.
 
-Agents should default to acting only on tier 3 and 4 `use` records.
+Consider acting only after tier 3 or 4 checks pass, the artifacts have been examined, and the signer is acceptable. Verification does not decide whether the claim is true.
 
 ## What this is not
 
