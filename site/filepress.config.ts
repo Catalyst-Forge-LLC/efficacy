@@ -8,7 +8,7 @@ export default defineFilepressConfig({
   url: "https://efficacy.dev",
   author: "Catalyst Forge LLC",
   tagline: "Tool-use records another agent can check",
-  lede: "What was used, what was measured, and the evidence. Built for agent workflows. No model required.",
+  lede: 'Record · evidence · verify',
   homePage: "home",
   logo: "/logo.png",
   ogImage: "/logo.png",

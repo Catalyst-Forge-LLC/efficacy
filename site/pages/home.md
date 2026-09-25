@@ -10,6 +10,11 @@ The chain is a JSONL file in the repo. No ledger. No accounts. No model.
 
 Verification shows a record is intact and tied to specific artifacts. It does not show the claim is true. That depends on the evidence, how the measurement was taken, and who signed it. See [what verify checks](/docs/verify).
 
+<div class="cta-row">
+  <a class="cta cta-primary" href="/docs/introduction">Read the docs</a>
+  <a class="cta cta-secondary" href="https://github.com/Catalyst-Forge-LLC/efficacy">View on GitHub</a>
+</div>
+
 ## Install
 
 ```bash
