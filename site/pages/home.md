@@ -1,5 +1,5 @@
 ---
-title: Efficacy
+title: A record of what the tool did.
 description: Signed, hash-bound records of tool use, with evidence another agent can check.
 order: 0
 ---
