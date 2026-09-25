@@ -29,7 +29,7 @@ Or run it once with `npx efficacy`. Node.js 22+. The package is [efficacy on npm
 1. `efficacy init` writes one signed genesis line.
 2. `efficacy evidence` writes the evidence file: what was run, what was observed, and the tool's hash.
 3. `efficacy record` appends a `use` line that cites it, with a `pass` or `fail` verdict.
-4. `efficacy verify` walks the file and names the first broken check, or a trust tier per record.
+4. `efficacy verify` walks the file and names the first broken check, or a trust tier per record. To reproduce a check, obtain the record, the referenced artifact bytes, and the signer key the example names. Verify the binding, then inspect the evidence and decide whether you trust the signer.
 5. `efficacy retract` withdraws a record that no longer holds. Nothing is deleted.
 
 A genesis line opens the chain. It is not a win. Unsigned notes are hints. The [README quickstart](https://github.com/Catalyst-Forge-LLC/efficacy#quickstart) runs the whole loop, including a retraction.

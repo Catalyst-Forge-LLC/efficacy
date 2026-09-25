@@ -28,8 +28,9 @@ order: 2
 | Layer | Name |
 | --- | --- |
 | Standard | Efficacy |
-| Spec | `efficacy/0.3` |
-| CLI and npm package | [`efficacy`](https://www.npmjs.com/package/efficacy) |
+| Record format | `efficacy/0.3` |
+| CLI package | [`efficacy`](https://www.npmjs.com/package/efficacy) |
+| Latest CLI release | See npm. The package version is not the record format. |
 | Domain | efficacy.dev |
 | Chain files | `.efficacy/*.jsonl` |
 
