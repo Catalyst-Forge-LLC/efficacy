@@ -1,5 +1,5 @@
 ---
-title: A record of what the tool did.
+title: Signed tool-use records with evidence another agent can inspect.
 description: Signed, hash-bound records of tool use, with evidence another agent can check.
 order: 0
 ---
