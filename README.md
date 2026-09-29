@@ -8,7 +8,7 @@
 
 Efficacy is a specification and a CLI. After an agent uses a tool, it writes one line to an append-only file. The line names the exact tool (name, version, content hash), what was done, what was measured, and whether it worked, and it points at an evidence file by URL and hash. Later records can confirm or retract it.
 
-Use it when another agent or developer should be able to inspect a tool-use claim instead of trusting a summary that says "it worked." Efficacy is built for agent workflows. It does not use or require a model.
+Use it when another agent or developer should be able to inspect a tool-use claim instead of trusting a summary that says "it worked." Efficacy is built for agent workflows. It does not use or require a model. [ForgeTrail](https://forgetrail.dev) keeps a project's phase, decisions, and session in [AppLedger](https://appledger.dev). Efficacy does not replace that record. The chain stays in `.efficacy/`.
 
 **Docs:** [efficacy.dev/docs](https://efficacy.dev/docs) · **Spec:** [efficacy.dev/spec](https://efficacy.dev/spec) · **npm:** [efficacy](https://www.npmjs.com/package/efficacy)
 

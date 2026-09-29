@@ -18,7 +18,8 @@ order: 2
 - Not a popularity score or a star count
 - Not a security audit
 - Not a supply-chain attestation. in-toto, SLSA, and npm provenance say how an artifact was built. Efficacy records what happened when it was used, and can cite an attestation as evidence.
-- Not a declaration label. xFacts says what a tool claims about itself. Efficacy keeps observations from use.
+- Not a declaration label. [xFacts](https://xfacts.dev) says what a tool claims about itself. Efficacy keeps observations from use.
+- Not a project record. [ForgeTrail](https://forgetrail.dev) keeps phase, decisions, and the session in [AppLedger](https://appledger.dev). The chain stays in `.efficacy/`.
 - Not a blockchain, and not a hosted ledger
 - Not proof the claim is true. A verified record is intact and bound to its evidence. Whether the evidence supports the claim is the reader's call.
 - Not a success rate. A chain that records only passes says nothing about how often the tool fails.
