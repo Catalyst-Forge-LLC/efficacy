@@ -1,6 +1,6 @@
 ---
 app_facts_version: 0.1.0
-name: efficacy-workspace
+name: Efficacy
 type: web app
 status: active
 license: Apache-2.0
@@ -23,7 +23,7 @@ credits:
   built_by: "Catalyst Forge — https://www.catalystforge.com/"
 ---
 
-# efficacy-workspace
+# Efficacy
 
 `web app` · **active** · Apache-2.0
 
@@ -53,4 +53,4 @@ _None listed_
 ---
 *Generated with [AppFacts](https://appfacts.dev) · Built by [Catalyst Forge](https://www.catalystforge.com/) · [Visual label][appfacts-label]*
 
-[appfacts-label]: https://appfacts.dev/v#af1.eNo10DFrwzAQhuG_Er5ZttuO2kqgU-iSbqWUi3yRVdvSIZ0TTPB_L0rIfA_fC3fDBfbVINLMsODzOThya3NNeSxCjmGgq9TblU87EoFBUdKlwIKchkslU3AcS1XvQm7g5q19eUA3wt4wUfQL-Qq-VuGjy0EUBnmJGu7lz9Rz-1dqLqUpRA8LiTJjM-hZCuz3j8FpCVNfB4XcSJ5_Z4rkOT-xgUuzhKku3u2uPFKbQWZJJWjKKywGVSm263zQYTm1Ls3dnpSmtWjzkbLn5nDYd893YPsHw4tj-g
+[appfacts-label]: https://appfacts.dev/v#af1.eNo10DFrwzAQhuG_Er5ZttuO2kpop5Cl3UopZ_kiq5GlwzqnmOD_XpSQ9Xj4XrgrLrDPBokmhsXb6RQcuRUGukq9_HG_IxEYFCVdCizIabgwDGJwnEpVr0Ju5OalfbpDd4a9IlLyC_kKPlfhDzcHURjMS9Jw6x3zwO1vqbmcY0geFpJkwmYwsBTYr2-DfglxqINC7kyefyZK5Hl-YAOXJwmxLt7srtxTm8HMkkvQPK-wGFWl2K7zQcelb12euj0pxbVo855nz83hsO_48YTtHytlX94

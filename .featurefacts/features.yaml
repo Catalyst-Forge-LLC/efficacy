@@ -1,7 +1,7 @@
 schemaVersion: 0.2.0
 scan_id: scan-add
 product:
-  name: efficacy-workspace
+  name: Efficacy
   type: unknown
   status: unknown
   license: Apache-2.0
