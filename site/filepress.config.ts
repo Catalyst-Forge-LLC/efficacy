@@ -4,11 +4,11 @@ const github = "https://github.com/Catalyst-Forge-LLC/efficacy";
 
 export default defineFilepressConfig({
   title: "Efficacy",
-  description: "Signed, hash-bound records of tool use, with evidence another agent can check.",
+  description: "After an agent uses a tool, Efficacy records the version, the task, the observed result, and links to evidence. The next agent can inspect that record before relying on the same tool.",
   url: "https://efficacy.dev",
   author: "Catalyst Forge LLC",
   tagline: "Tool-use records another agent can check",
-  lede: 'Record · evidence · verify',
+  lede: "Signed tool-use records and verification CLI",
   homePage: "home",
   logo: "/logo.png",
   ogImage: "/logo.png",

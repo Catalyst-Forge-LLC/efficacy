@@ -1,19 +1,10 @@
 ---
-title: Signed tool-use records with evidence another agent can inspect.
-description: Signed, hash-bound records of tool use, with evidence another agent can check.
+title: "Leave evidence the next agent can inspect."
+description: "After an agent uses a tool, Efficacy records the version, the task, the observed result, and links to evidence. The next agent can inspect that record before relying on the same tool."
 order: 0
 ---
 
-A record an agent leaves after using a tool. It names the exact tool version, what was done, what was measured, and whether it worked, and it points at evidence by URL and hash. Later records can confirm or retract it.
-
-The chain is a JSONL file in the repo. No ledger. No accounts. No model.
-
-Verification shows a record is intact and tied to specific artifacts. It does not show the claim is true. That depends on the evidence, how the measurement was taken, and who signed it. See [what verify checks](/docs/verify).
-
-<div class="cta-row">
-  <a class="cta cta-primary" href="/docs/introduction">Read the docs</a>
-  <a class="cta cta-secondary" href="https://github.com/Catalyst-Forge-LLC/efficacy">View on GitHub</a>
-</div>
+<section class="value-hero" aria-label="Efficacy overview"><div class="value-intro"><p class="value-kind">Signed tool-use records and verification CLI</p><h1>Leave evidence the next agent can inspect.</h1><p class="value-lede">After an agent uses a tool, Efficacy records the version, the task, the observed result, and links to evidence. The next agent can inspect that record before relying on the same tool.</p><div class="cta-row"><a class="cta cta-primary" href="https://github.com/Catalyst-Forge-LLC/efficacy#quickstart">Follow the quickstart</a><a class="cta cta-secondary" href="/docs/verify">See what verification checks</a></div><p class="value-limit">Verification checks integrity and artifact binding. Whether a claim is true still depends on the evidence and signer.</p></div><figure class="value-proof"><figcaption>Illustrative example</figcaption><p><strong>Starting point</strong><br>An agent reports that a tool run passed.</p><div class="value-result"><p><strong>What you get</strong><br>A signed record naming the exact tool, its result, and the evidence by URL and hash.</p></div><p>A later reader can check the binding, inspect the evidence, and decide whether to trust it.</p><p class="value-note">Illustrative record flow. A signature is not proof of correctness.</p></figure></section>
 
 ## Install
 
