@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="site/static/logo.png" alt="Efficacy" width="96" />
+  <img src="https://efficacy.dev/logo.png" alt="Efficacy" width="96" />
 </p>
 
 # Efficacy
@@ -11,6 +11,14 @@ Efficacy is a specification and a CLI. After an agent uses a tool, it writes one
 Use it when another agent or developer should be able to inspect a tool-use claim instead of trusting a summary that says "it worked." Efficacy is built for agent workflows. It does not use or require a model. [ForgeTrail](https://forgetrail.dev) keeps a project's phase, decisions, and session in [AppLedger](https://appledger.dev). Efficacy does not replace that record. The chain stays in `.efficacy/`.
 
 **Docs:** [efficacy.dev/docs](https://efficacy.dev/docs) · **Spec:** [efficacy.dev/spec](https://efficacy.dev/spec) · **npm:** [efficacy](https://www.npmjs.com/package/efficacy)
+
+## Inspect the evidence behind “it worked”
+
+The [quickstart](#quickstart) records an illustrative use of `demo-tool 1.2.3`: the same 12 checks passed, using 4,100 tokens without the tool and 2,900 with it. A plain “saved 1,200 tokens” summary leaves the next reader unable to inspect the tool or measurement.
+
+The record binds that claim to the tool file's hash, the evidence file's hash, and a signature. The next reader runs `efficacy verify` with those artifacts and the public key, then reads the evidence to judge the claim. Changing the evidence file causes its hash check to fail; a later retraction keeps the original line while withdrawing its trust tier.
+
+Those token counts are example data, not measured product savings. Verification establishes which artifacts were signed, not whether the reported saving is true. The complete runnable walkthrough and expected output remain below.
 
 ## What verification means
 
