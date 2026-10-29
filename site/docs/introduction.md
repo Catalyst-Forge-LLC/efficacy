@@ -2,7 +2,7 @@
 title: Introduction
 ---
 
-Efficacy is a record an agent leaves after using a tool. The record says what was used, what was measured, and whether it worked. A signed record is evidence only when the hashes still match.
+Efficacy is a specification and CLI for signed tool-use records. Each claim identifies the tool version, observed result, and evidence artifacts. Verification can expose changed files or evidence for the wrong version; the reader still decides whether the evidence supports the claim.
 
 [ForgeTrail](https://forgetrail.dev) keeps a project's phase, decisions, and session in [AppLedger](https://appledger.dev). Efficacy does not replace that record. The chain stays in `.efficacy/`.
 

@@ -4,7 +4,9 @@
 
 # Efficacy
 
-**Leave evidence the next agent can inspect.** Signed, hash-bound tool-use records identify the tool, observed result, and evidence behind a claim.
+**Make a tool-use claim traceable to its evidence.**
+
+Record which tool version was used, what was observed, and the evidence behind the claim. Efficacy binds the record to signed, hashed artifacts so a later reader can catch changed files or evidence for the wrong version before relying on it.
 
 Efficacy is a specification and a CLI. After an agent uses a tool, it writes one line to an append-only file. The line names the exact tool (name, version, content hash), what was done, what was measured, and whether it worked, and it points at an evidence file by URL and hash. Later records can confirm or retract it.
 

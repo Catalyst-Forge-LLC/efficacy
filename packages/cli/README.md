@@ -4,7 +4,7 @@
 
 # efficacy
 
-The reference CLI for [Efficacy](https://efficacy.dev): signed, hash-bound records of tool use, with evidence another agent can check. A record names the exact tool version, what was measured, and whether it worked. Later records can confirm or retract it. No model required.
+**Make a tool-use claim traceable to its evidence.** The reference CLI for [Efficacy](https://efficacy.dev) creates signed records linking a tool version and observed result to specific evidence artifacts. Verification can catch changed bytes or evidence for the wrong version before a reader relies on the claim. Later records can confirm or retract it. No model required.
 
 Verifying a record shows it is intact and bound to its evidence. It does not show the claim is true; that depends on the evidence, the measurement method, and who signed it. See [what verify checks](https://efficacy.dev/docs/verify).
 

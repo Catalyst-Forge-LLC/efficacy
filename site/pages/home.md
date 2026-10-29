@@ -1,10 +1,10 @@
 ---
-title: "Leave evidence the next agent can inspect."
-description: "After an agent uses a tool, Efficacy records the version, the task, the observed result, and links to evidence. The next agent can inspect that record before relying on the same tool."
+title: "Make a tool-use claim traceable to its evidence."
+description: "Record which tool version was used, what was observed, and the evidence behind the claim. Efficacy binds the record to signed, hashed artifacts so a later reader can catch changed files or evidence for the wrong version before relying on it."
 order: 0
 ---
 
-<section class="value-hero" aria-label="Efficacy overview"><div class="value-intro"><div class="value-headline"><p class="value-kind">Signed tool-use records and verification CLI</p><h1>Leave evidence the next agent can inspect.</h1></div><div class="value-pitch"><p class="value-lede">After an agent uses a tool, Efficacy records the version, the task, the observed result, and links to evidence. The next agent can inspect that record before relying on the same tool.</p><div class="cta-row"><a class="cta cta-primary" href="https://github.com/Catalyst-Forge-LLC/efficacy#quickstart">Follow the quickstart</a><a class="cta cta-secondary" href="#record-example">See what a record lets you check</a></div><p class="value-limit">Verification checks integrity and artifact binding. Whether a claim is true still depends on the evidence and signer.</p></div></div>
+<section class="value-hero" aria-label="Efficacy overview"><div class="value-intro"><div class="value-headline"><p class="value-kind">Signed tool-use records and verification CLI</p><h1>Make a tool-use claim traceable to its evidence.</h1></div><div class="value-pitch"><p class="value-lede">Record which tool version was used, what was observed, and the evidence behind the claim. Efficacy binds the record to signed, hashed artifacts so a later reader can catch changed files or evidence for the wrong version before relying on it.</p><div class="cta-row"><a class="cta cta-primary" href="https://github.com/Catalyst-Forge-LLC/efficacy#quickstart">Follow the quickstart</a><a class="cta cta-secondary" href="#record-example">See what a record lets you check</a></div><p class="value-limit">Verification checks integrity and artifact binding. Whether a claim is true still depends on the evidence and signer.</p></div></div>
 <figure class="value-proof worked-example" id="record-example" tabindex="-1">
 <figcaption>Check which tool a “pass” actually refers to</figcaption>
 <p class="example-context">Illustrative excerpt from the documented demo-tool workflow. Fields and hashes are shortened here; this is not a complete, verifiable record or a measured performance claim.</p>
